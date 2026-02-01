@@ -2173,27 +2173,70 @@
         scrollBottom();
       });
 
-      socket.on("dm:new", (data)=>{
-        const m = data?.msg;
-        const from = data?.from;
-        if(!m || !from) return;
+socket.on("dm:new", (data)=>{
+  const m = data?.msg;
+  const from = data?.from;
+  const isSelf = !!data?.self;
+  if(!m || !from) return;
 
-        // if currently in that DM room -> render
-        if(chatMode==="dm" && dmPeer && from===dmPeer.name){
-          renderMsg(m);
-          scrollBottom();
-          return;
-        }
+  // kalau ini echo pesan kita sendiri, jangan bikin toast notif
+  if(isSelf){
+    // kalau lagi di DM yang sama, render
+    if(chatMode==="dm" && dmPeer && from===dmPeer.name){
+      renderMsg(m);
+      scrollBottom();
+    }
+    return;
+  }
 
-        // otherwise: unread badge + toast notif
-        const u = usersMap.get(from);
-        if(u){
-          u.unreadDM = (u.unreadDM||0) + 1;
-          usersMap.set(from,u);
-          renderUsers();
-        }
-        toast("DM", `${from}: ${m.text ? m.text : (m.kind ? `[${m.kind}]` : "message")}`);
-      });
+  // kalau lagi di DM dengan pengirim -> tampilkan langsung
+  if(chatMode==="dm" && dmPeer && from===dmPeer.name){
+    renderMsg(m);
+    scrollBottom();
+    return;
+  }
+
+  // selain itu → unread + toast notif
+  const u = usersMap.get(from);
+  if(u){
+    u.unreadDM = (u.unreadDM||0) + 1;
+    usersMap.set(from,u);
+    renderUsers();
+  }
+  toast("DM", `${from}: ${m.text ? m.text : (m.kind ? `[${m.kind}]` : "message")}`);
+});
+
+/* ====== FIX TOMBOL DM MODAL ====== */
+/* cari: el.pDm.addEventListener("click", ()=>{ ... }) */
+/* ganti jadi ini biar pasti masuk DM: */
+
+el.pDm.addEventListener("click", ()=>{
+  if(!profUser) return;
+  if(profUser.name === me.name){
+    toast("INFO","Kamu tidak bisa DM diri sendiri.");
+    return;
+  }
+  closeProfile();
+
+  // kalau user belum ada lengkap di map, bikin placeholder biar tetap bisa DM
+  const safe = usersMap.get(profUser.name) || {
+    name: profUser.name,
+    bio: profUser.bio || "",
+    photo: profUser.photo || null,
+    online: !!profUser.online,
+    lastSeen: Date.now(),
+    unreadDM: 0
+  };
+  usersMap.set(safe.name, safe);
+  renderUsers();
+
+  // masuk DM meskipun offline
+  chatToDM(safe);
+
+  // close sidebar (mobile)
+  el.sidebar.classList.remove("on");
+  el.overlay.classList.remove("on");
+});
 
       // typing
       socket.on("typing", (d)=>{
