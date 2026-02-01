@@ -17,7 +17,6 @@
       --panel: rgba(13, 18, 32, .62);
       --panel2: rgba(9, 12, 22, .72);
       --stroke: rgba(160, 220, 255, .16);
-      --stroke2: rgba(255,255,255,.10);
 
       --text:#eaf2ff;
       --muted: rgba(234,242,255,.58);
@@ -29,11 +28,6 @@
 
       --fontH:'Orbitron',sans-serif;
       --fontB:'Share Tech Mono',monospace;
-
-      --r12:12px;
-      --r16:16px;
-      --r20:20px;
-      --r24:24px;
 
       --accentA: 196;
       --accentB: 264;
@@ -50,7 +44,7 @@
       overflow:hidden;
     }
 
-    /* ===== BACKGROUND LAYERS ===== */
+    /* Background */
     .bg-wrap{ position:fixed; inset:0; z-index:-3; pointer-events:none; }
     canvas#meteorCanvas{ width:100%; height:100%; display:block; filter: drop-shadow(0 0 10px rgba(140,220,255,.25)); }
     canvas#fxCanvas{ position:fixed; inset:0; width:100%; height:100%; z-index:-2; pointer-events:none; opacity:.95; }
@@ -71,37 +65,24 @@
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.16); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
-    /* ===== APP LAYOUT ===== */
-    .app{
-      height:100dvh;
-      width:100%;
-      max-width:1600px;
-      margin:0 auto;
-      display:flex;
-      position:relative;
-    }
+    .app{ height:100dvh; width:100%; max-width:1600px; margin:0 auto; display:flex; position:relative; }
 
-    /* ===== SIDEBAR ===== */
+    /* Sidebar */
     .sidebar{
-      width:310px;
-      flex-shrink:0;
+      width:310px; flex-shrink:0;
       border-right:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(10,14,26,.70), rgba(10,14,26,.35));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display:flex;
-      flex-direction:column;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display:flex; flex-direction:column;
       z-index:50;
       transition: transform .28s cubic-bezier(.4,0,.2,1);
       box-shadow: 18px 0 70px rgba(0,0,0,.25);
     }
-
     .user-card{
       padding:18px;
       border-bottom:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(16,24,42,.72), rgba(10,14,26,.25));
     }
-
     .profile-top{ display:flex; align-items:center; gap:12px; }
     .avatar{
       width:66px; height:66px;
@@ -113,9 +94,7 @@
       position:relative;
       flex-shrink:0;
       cursor:pointer;
-      box-shadow:
-        0 18px 55px rgba(0,0,0,.35),
-        0 0 0 1px rgba(255,255,255,.06) inset;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.06) inset;
     }
     .avatar::after{
       content:"";
@@ -133,7 +112,6 @@
       pointer-events:none;
     }
     @keyframes spin { to{ transform: rotate(360deg);} }
-
     .avatar img{ width:100%; height:100%; object-fit:cover; display:none; position:relative; z-index:1; }
     .avatar .initials{
       position:relative; z-index:1;
@@ -152,16 +130,11 @@
       font-size:15px;
       letter-spacing:1.6px;
       text-transform:uppercase;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
     .me-sub{ margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex; align-items:center; gap:8px;
       padding:6px 10px;
       border-radius:999px;
       border:1px solid var(--stroke);
@@ -173,20 +146,8 @@
       user-select:none;
       white-space:nowrap;
     }
-    .pill i{ opacity:.85; }
-    .pill strong{
-      color: var(--text);
-      font-weight:800;
-      letter-spacing:2px;
-      font-family:var(--fontH);
-      font-size:9px;
-    }
-
-    .status-dot{
-      width:7px; height:7px; border-radius:50%;
-      background: var(--warn);
-      box-shadow: 0 0 12px rgba(250,204,21,.35);
-    }
+    .pill strong{ color: var(--text); font-weight:800; letter-spacing:2px; font-family:var(--fontH); font-size:9px; }
+    .status-dot{ width:7px; height:7px; border-radius:50%; background: var(--warn); box-shadow: 0 0 12px rgba(250,204,21,.35); }
     .status-dot.connected{ background: var(--good); box-shadow: 0 0 12px rgba(74,222,128,.35); }
     .status-dot.disconnected{ background: var(--bad); box-shadow: 0 0 12px rgba(251,113,133,.35); }
 
@@ -196,8 +157,7 @@
       padding:10px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(0,0,0,.16));
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(0,0,0,.16));
       color: var(--text);
       cursor:pointer;
       transition: transform .15s ease, border-color .15s ease, filter .15s ease;
@@ -207,49 +167,34 @@
       font-size:11px;
       display:flex; align-items:center; justify-content:center; gap:8px;
       box-shadow: 0 10px 30px rgba(0,0,0,.22);
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
     }
     .btn::before{
       content:"";
       position:absolute; inset:0;
       background: radial-gradient(400px 140px at 20% 0%, rgba(160,220,255,.14), transparent 60%);
-      opacity:.7;
-      pointer-events:none;
+      opacity:.7; pointer-events:none;
       animation: btnGlow 3.2s ease-in-out infinite;
     }
-    @keyframes btnGlow{
-      0%,100%{ transform: translateX(-10px); opacity:.55; }
-      50%{ transform: translateX(10px); opacity:.85; }
-    }
+    @keyframes btnGlow{ 0%,100%{ transform: translateX(-10px); opacity:.55; } 50%{ transform: translateX(10px); opacity:.85; } }
     .btn:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.22); filter: brightness(1.05); }
     .btn.danger{ border-color: rgba(251,113,133,.18); }
     .btn.danger:hover{ border-color: rgba(251,113,133,.38); }
 
-    /* Under hamburger: ONLINE then MUSIC (rapi, gak bentrok) */
     .mini-panel{
       padding:14px 18px;
       border-bottom:1px solid var(--stroke);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+      display:flex; flex-direction:column; gap:10px;
       background: linear-gradient(180deg, rgba(10,14,26,.35), rgba(10,14,26,.15));
     }
-    .mini-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
+    .mini-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .mini-title{
       font-family:var(--fontH);
       letter-spacing:2px;
       font-size:10px;
       color: var(--muted);
       text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
     }
     .mini-value{
       font-family:var(--fontH);
@@ -270,66 +215,38 @@
       padding:12px 12px;
       border-radius:16px;
       border:1px solid rgba(160,220,255,.18);
-      background:
-        linear-gradient(135deg,
-          rgba(96,165,250,.22),
-          rgba(168,85,247,.12),
-          rgba(236,72,153,.10));
+      background: linear-gradient(135deg, rgba(96,165,250,.22), rgba(168,85,247,.12), rgba(236,72,153,.10));
       color: var(--text);
       cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
+      display:flex; align-items:center; justify-content:center; gap:10px;
       transition: transform .15s ease, border-color .15s ease, filter .15s ease;
       font-family:var(--fontH);
       letter-spacing:2px;
       text-transform:uppercase;
       font-size:11px;
       user-select:none;
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
       box-shadow: 0 14px 40px rgba(0,0,0,.25);
       animation: hue 10s linear infinite;
     }
     .music-btn:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.32); filter: brightness(1.06); }
-    .music-state-dot{
-      width:8px; height:8px; border-radius:50%;
-      background: rgba(234,242,255,.25);
-      box-shadow: 0 0 14px rgba(160,220,255,.20);
-    }
+    .music-state-dot{ width:8px; height:8px; border-radius:50%; background: rgba(234,242,255,.25); box-shadow: 0 0 14px rgba(160,220,255,.20); }
     .music-on .music-state-dot{ background: var(--good); box-shadow: 0 0 14px rgba(74,222,128,.35); }
-    .music-off .music-state-dot{ background: rgba(234,242,255,.25); }
 
-    .online-users{
-      flex:1;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height:0;
-    }
+    .online-users{ flex:1; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
     .section-header{
       padding:14px 18px;
       border-bottom:1px solid var(--stroke);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; align-items:center; justify-content:space-between;
       font-family:var(--fontH);
       font-size:10px;
       letter-spacing:2px;
       text-transform:uppercase;
       color: var(--muted);
     }
-    .users-list{
-      flex:1;
-      overflow:auto;
-      padding:10px;
-      min-height:0;
-    }
+    .users-list{ flex:1; overflow:auto; padding:10px; min-height:0; }
     .user-item{
-      display:flex;
-      align-items:center;
-      gap:12px;
+      display:flex; align-items:center; gap:12px;
       padding:10px;
       border-radius:16px;
       border:1px solid transparent;
@@ -337,23 +254,17 @@
       margin-bottom:10px;
       cursor:pointer;
       transition: background .15s ease, border-color .15s ease, transform .15s ease;
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
     }
     .user-item::before{
       content:"";
       position:absolute; inset:0;
       background: radial-gradient(520px 120px at 10% 0%, rgba(160,220,255,.10), transparent 55%);
-      opacity:.8;
-      pointer-events:none;
+      opacity:.8; pointer-events:none;
       transform: translateX(-10px);
       transition: transform .2s ease;
     }
-    .user-item:hover{
-      transform: translateY(-1px);
-      background: rgba(0,0,0,.16);
-      border-color: rgba(160,220,255,.18);
-    }
+    .user-item:hover{ transform: translateY(-1px); background: rgba(0,0,0,.16); border-color: rgba(160,220,255,.18); }
     .user-item:hover::before{ transform: translateX(10px); }
     .u-ava{
       width:38px;height:38px;border-radius:16px;
@@ -366,17 +277,12 @@
       color: var(--text);
       overflow:hidden;
       flex-shrink:0;
-      position:relative;
-      z-index:1;
+      position:relative; z-index:1;
       box-shadow: 0 10px 25px rgba(0,0,0,.25);
     }
     .u-ava img{ width:100%;height:100%;object-fit:cover; display:none; }
     .u-info{ min-width:0; position:relative; z-index:1; }
-    .u-name{
-      font-size:13px; color:var(--text);
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      letter-spacing:.5px;
-    }
+    .u-name{ font-size:13px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; letter-spacing:.5px; }
     .u-role{
       font-size:10px; color:var(--muted2);
       text-transform:uppercase; letter-spacing:2px; margin-top:3px;
@@ -384,28 +290,15 @@
     }
     .u-role .dot{ width:6px;height:6px;border-radius:50%; background: rgba(234,242,255,.25); }
 
-    /* ===== CHAT ===== */
-    .chat{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-      position:relative;
-    }
-
+    /* Chat */
+    .chat{ flex:1; display:flex; flex-direction:column; min-width:0; position:relative; }
     .chat-header{
-      height:64px;
-      flex-shrink:0;
+      height:64px; flex-shrink:0;
       border-bottom:1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(16,24,42,.66), rgba(10,14,26,.22));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 14px;
-      gap:10px;
-      z-index:10;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 14px; gap:10px; z-index:10;
     }
     .left-head{ display:flex; align-items:center; gap:12px; min-width:0; }
     .hamburger{
@@ -420,15 +313,8 @@
       box-shadow: 0 12px 34px rgba(0,0,0,.25);
     }
     .hamburger:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.22); filter: brightness(1.05); }
-
     .brand{ display:flex; align-items:center; gap:10px; min-width:0; }
-    .brand h1{
-      font-family:var(--fontH);
-      font-size:16px;
-      letter-spacing:2.4px;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
+    .brand h1{ font-family:var(--fontH); font-size:16px; letter-spacing:2.4px; text-transform:uppercase; white-space:nowrap; }
     .badge-ultra{
       padding:8px 10px;
       border-radius:999px;
@@ -443,19 +329,11 @@
       animation: hue 10s linear infinite;
       box-shadow: 0 10px 30px rgba(0,0,0,.22);
     }
-
-    .right-head{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-shrink:0;
-    }
+    .right-head{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
 
     /* Small connect pill + ping */
     .conn-mini{
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
       padding:10px 12px;
       border-radius:999px;
       border:1px solid rgba(74,222,128,.22);
@@ -466,7 +344,7 @@
       text-transform:uppercase;
       color: rgba(74,222,128,.95);
       box-shadow: 0 12px 34px rgba(0,0,0,.25);
-      max-width: 170px;
+      max-width: 190px;
       white-space:nowrap;
     }
     .conn-mini.disc{ border-color: rgba(251,113,133,.25); color: rgba(251,113,133,.95); }
@@ -482,33 +360,22 @@
       letter-spacing:2px;
     }
 
-    /* Mode bar (Public / DM) */
+    /* Mode bar (PUBLIC / DM) */
     .modebar{
       padding:10px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
       border-bottom:1px solid rgba(255,255,255,.06);
       background: rgba(0,0,0,.10);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
-    .mode-left{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
+    .mode-left{ display:flex; align-items:center; gap:10px; min-width:0; }
     .mode-title{
       font-family:var(--fontH);
       letter-spacing:2px;
       font-size:10px;
       text-transform:uppercase;
       color: var(--muted);
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
       min-width:0;
     }
     .mode-chip{
@@ -525,6 +392,11 @@
       overflow:hidden;
       text-overflow:ellipsis;
       max-width: 210px;
+    }
+    .mode-chip.dm{
+      border-color: rgba(236,72,153,.22);
+      background: linear-gradient(135deg, rgba(236,72,153,.12), rgba(168,85,247,.10), rgba(0,0,0,.18));
+      animation: hue 10s linear infinite;
     }
     .back-public{
       padding:9px 12px;
@@ -546,15 +418,10 @@
     .back-public:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.30); }
 
     .messages{
-      flex:1;
-      min-height:0;
-      overflow:auto;
+      flex:1; min-height:0; overflow:auto;
       padding:16px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+      display:flex; flex-direction:column; gap:14px;
     }
-
     .sys{
       align-self:center;
       padding:9px 14px;
@@ -565,20 +432,13 @@
       font-size:11px;
       letter-spacing:1.8px;
       text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
       text-align:center;
       max-width:92%;
       box-shadow: 0 12px 34px rgba(0,0,0,.25);
     }
 
-    .msg{
-      display:flex;
-      max-width:88%;
-      gap:10px;
-      animation: pop .18s ease;
-    }
+    .msg{ display:flex; max-width:88%; gap:10px; animation: pop .18s ease; }
     .msg.own{ align-self:flex-end; flex-direction: row-reverse; }
     .msg.other{ align-self:flex-start; }
     @keyframes pop{ from{ transform: translateY(6px); opacity:0; } to{ transform: translateY(0); opacity:1; } }
@@ -590,37 +450,24 @@
       background: rgba(0,0,0,.22);
       overflow:hidden;
       flex-shrink:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex; align-items:center; justify-content:center;
       box-shadow: 0 12px 30px rgba(0,0,0,.25);
       position:relative;
+      cursor:pointer;
     }
     .m-ava img{ width:100%;height:100%;object-fit:cover;display:none; }
-    .m-ava .in{
-      font-family:var(--fontH);
-      font-size:12px;
-      letter-spacing:2px;
-      opacity:.95;
-    }
+    .m-ava .in{ font-family:var(--fontH); font-size:12px; letter-spacing:2px; opacity:.95; }
 
     .m-body{ min-width:0; display:flex; flex-direction:column; gap:6px; }
     .meta{
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:10px;
       color: var(--muted2);
       font-size:11px;
       letter-spacing:1.8px;
       text-transform:uppercase;
       flex-wrap:wrap;
     }
-    .meta .name{
-      font-family:var(--fontH);
-      letter-spacing:2px;
-      color: var(--text);
-      font-size:10px;
-    }
+    .meta .name{ font-family:var(--fontH); letter-spacing:2px; color: var(--text); font-size:10px; cursor:pointer; }
     .role-badge{
       font-family:var(--fontH);
       font-size:9px;
@@ -644,21 +491,33 @@
       position:relative;
       overflow:hidden;
     }
+    .bubble::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(520px 170px at 20% 0%, rgba(160,220,255,.10), transparent 60%);
+      opacity:.85; pointer-events:none;
+      transform: translateX(-10px);
+      transition: transform .2s ease;
+    }
+    .bubble:hover::before{ transform: translateX(10px); }
+
+    /* PUBLIC bubble own */
     .msg.own .bubble{
       background: linear-gradient(135deg, rgba(96,165,250,.22), rgba(168,85,247,.12), rgba(236,72,153,.10));
       border-color: rgba(160,220,255,.18);
       animation: hue 10s linear infinite;
     }
-    .bubble::before{
-      content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(520px 170px at 20% 0%, rgba(160,220,255,.10), transparent 60%);
-      opacity:.85;
-      pointer-events:none;
-      transform: translateX(-10px);
-      transition: transform .2s ease;
+
+    /* DM bubble style (biar beda jelas) */
+    .dm-skin .bubble{
+      background: linear-gradient(135deg, rgba(236,72,153,.14), rgba(168,85,247,.12), rgba(0,0,0,.22));
+      border-color: rgba(236,72,153,.20);
     }
-    .bubble:hover::before{ transform: translateX(10px); }
+    .dm-skin.msg.own .bubble{
+      background: linear-gradient(135deg, rgba(236,72,153,.22), rgba(168,85,247,.16), rgba(96,165,250,.10));
+      border-color: rgba(236,72,153,.26);
+      animation: hue 10s linear infinite;
+    }
 
     .reply-quote{
       border:1px solid rgba(255,255,255,.10);
@@ -689,22 +548,9 @@
       -webkit-box-orient:vertical;
     }
 
-    .bubble img{
-      max-width:100%;
-      display:block;
-      margin-top:10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      cursor:pointer;
-    }
+    .bubble img{ max-width:100%; display:block; margin-top:10px; border-radius:14px; border:1px solid rgba(255,255,255,.12); cursor:pointer; }
 
-    .msg-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-top:8px;
-      opacity:.9;
-    }
+    .msg-actions{ display:flex; align-items:center; gap:10px; margin-top:8px; opacity:.95; flex-wrap:wrap; }
     .mini-act{
       padding:7px 10px;
       border-radius:12px;
@@ -722,8 +568,40 @@
       transition: transform .15s ease, border-color .15s ease, filter .15s ease;
     }
     .mini-act:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.20); filter: brightness(1.05); }
+    .mini-act.pink{ border-color: rgba(236,72,153,.18); }
+    .mini-act.pink:hover{ border-color: rgba(236,72,153,.30); }
 
-    /* Reply bar above input */
+    /* Typing */
+    .typing{
+      height:18px;
+      padding:0 14px 10px;
+      color: var(--muted2);
+      font-size:11px;
+      display:none;
+      align-items:center;
+      gap:10px;
+      flex-shrink:0;
+    }
+    .typing .dots span{
+      width:4px;height:4px;border-radius:999px;
+      background: rgba(234,242,255,.45);
+      display:inline-block;
+      animation: bounce 1.2s infinite;
+      margin-right:3px;
+    }
+    .typing .dots span:nth-child(2){ animation-delay:.15s; }
+    .typing .dots span:nth-child(3){ animation-delay:.3s; }
+    @keyframes bounce{ 0%,80%,100%{ transform: scale(.2); opacity:.4; } 40%{ transform: scale(1); opacity:1; } }
+
+    /* Input + replybar */
+    .input{
+      flex-shrink:0;
+      border-top:1px solid rgba(255,255,255,.06);
+      background: linear-gradient(180deg, rgba(10,14,26,.22), rgba(16,24,42,.58));
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      padding:12px 14px 14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
     .replybar{
       display:none;
       align-items:center;
@@ -735,11 +613,7 @@
       background: rgba(0,0,0,.22);
       box-shadow: 0 14px 40px rgba(0,0,0,.25);
     }
-    .replybar .left{
-      min-width:0;
-      color: var(--muted);
-      font-size:12px;
-    }
+    .replybar .left{ min-width:0; color: var(--muted); font-size:12px; }
     .replybar .left b{
       font-family:var(--fontH);
       letter-spacing:2px;
@@ -758,30 +632,8 @@
     }
     .replybar .x:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.20); }
 
-    /* Input */
-    .input{
-      flex-shrink:0;
-      border-top:1px solid rgba(255,255,255,.06);
-      background: linear-gradient(180deg, rgba(10,14,26,.22), rgba(16,24,42,.58));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding:12px 14px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .input-row{
-      display:flex;
-      align-items:flex-end;
-      gap:10px;
-    }
-    .input .wrap{
-      flex:1;
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .input-row{ display:flex; align-items:flex-end; gap:10px; }
+    .input .wrap{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
     .file-preview{
       display:none;
       padding:9px 10px;
@@ -796,7 +648,6 @@
     }
     .file-preview.active{ display:flex; }
     .file-preview .remove{ margin-left:auto; cursor:pointer; opacity:.85; }
-
     textarea{
       width:100%;
       min-height:54px;
@@ -821,27 +672,22 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
       color: var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       transition: transform .15s ease, border-color .15s ease, filter .15s ease;
       box-shadow: 0 16px 50px rgba(0,0,0,.25);
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
     }
     .icon::before{
       content:"";
       position:absolute; inset:0;
       background: radial-gradient(520px 170px at 20% 0%, rgba(160,220,255,.12), transparent 60%);
-      opacity:.85;
-      pointer-events:none;
+      opacity:.85; pointer-events:none;
       transform: translateX(-10px);
       transition: transform .2s ease;
     }
     .icon:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.16); filter: brightness(1.05); }
     .icon:hover::before{ transform: translateX(10px); }
-
     .send{
       background: linear-gradient(135deg, rgba(96,165,250,.92), rgba(168,85,247,.70), rgba(236,72,153,.50));
       border-color: rgba(160,220,255,.22);
@@ -849,31 +695,7 @@
       font-weight:900;
       animation: hue 10s linear infinite;
     }
-    .send i{ filter: drop-shadow(0 8px 18px rgba(0,0,0,.35)); }
-
     .send:disabled, .icon:disabled, textarea:disabled{ opacity:.45; cursor:not-allowed; }
-
-    /* Typing */
-    .typing{
-      height:18px;
-      padding:0 14px 10px;
-      color: var(--muted2);
-      font-size:11px;
-      display:none;
-      align-items:center;
-      gap:10px;
-      flex-shrink:0;
-    }
-    .typing .dots span{
-      width:4px;height:4px;border-radius:999px;
-      background: rgba(234,242,255,.45);
-      display:inline-block;
-      animation: bounce 1.2s infinite;
-      margin-right:3px;
-    }
-    .typing .dots span:nth-child(2){ animation-delay:.15s; }
-    .typing .dots span:nth-child(3){ animation-delay:.3s; }
-    @keyframes bounce{ 0%,80%,100%{ transform: scale(.2); opacity:.4; } 40%{ transform: scale(1); opacity:1; } }
 
     /* Modal image */
     .modal{
@@ -886,37 +708,22 @@
       padding:18px;
     }
     .modal.active{ display:flex; }
-    .modal img{
-      max-width:95%;
-      max-height:90vh;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-    }
+    .modal img{ max-width:95%; max-height:90vh; border-radius:14px; border:1px solid rgba(255,255,255,.12); }
 
-    /* Mobile sidebar overlay */
-    .overlay{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.60);
-      display:none;
-      z-index:40;
-    }
+    /* Overlay mobile */
+    .overlay{ position:fixed; inset:0; background: rgba(0,0,0,.60); display:none; z-index:40; }
     .overlay.active{ display:block; }
 
-    /* ===== LOGIN / EDIT GATE (ANIMASI BEDA DARI CHAT) ===== */
+    /* Gate (login) */
     .gate{
-      position:fixed; inset:0;
-      z-index:3000;
-      display:none;
-      align-items:center;
-      justify-content:center;
+      position:fixed; inset:0; z-index:3000;
+      display:none; align-items:center; justify-content:center;
       padding:18px;
       background: rgba(0,0,0,.60);
     }
     .gate.active{ display:flex; }
-
     .gate-bg{
-      position:absolute; inset:0;
-      pointer-events:none;
+      position:absolute; inset:0; pointer-events:none;
       background:
         radial-gradient(800px 500px at 20% 10%, rgba(96,165,250,.16), transparent 60%),
         radial-gradient(700px 700px at 85% 20%, rgba(168,85,247,.14), transparent 55%),
@@ -943,18 +750,15 @@
       0%,100%{ transform: translateY(0) translateX(0) scale(1); }
       50%{ transform: translateY(-18px) translateX(10px) scale(1.04); }
     }
-
     .gate-card{
-      width:100%;
-      max-width:560px;
+      width:100%; max-width:560px;
       border-radius:22px;
       border:1px solid rgba(160,220,255,.16);
       background: linear-gradient(180deg, rgba(16,24,42,.78), rgba(9,12,22,.62));
       box-shadow: 0 30px 90px rgba(0,0,0,.62);
       overflow:hidden;
       position:relative;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
     .gate-card::before{
       content:"";
@@ -965,17 +769,9 @@
     .gate-head{
       padding:18px 18px 12px;
       border-bottom:1px solid rgba(255,255,255,.06);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
-    .gate-title{
-      font-family:var(--fontH);
-      letter-spacing:3px;
-      text-transform:uppercase;
-      font-size:14px;
-    }
+    .gate-title{ font-family:var(--fontH); letter-spacing:3px; text-transform:uppercase; font-size:14px; }
     .gate-tag{
       padding:8px 10px;
       border-radius:999px;
@@ -988,22 +784,11 @@
       text-transform:uppercase;
       display:flex; align-items:center; gap:10px;
     }
-    .gate-sub{
-      padding:0 18px 14px;
-      color: var(--muted);
-      font-size:12px;
-      line-height:1.7;
-    }
-    .gate-body{
-      padding:16px 18px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+    .gate-sub{ padding:0 18px 14px; color: var(--muted); font-size:12px; line-height:1.7; }
+    .gate-body{ padding:16px 18px 18px; display:flex; flex-direction:column; gap:12px; }
     .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .field{
-      flex:1;
-      min-width:190px;
+      flex:1; min-width:190px;
       padding:13px 12px;
       border-radius:16px;
       border:1px solid rgba(255,255,255,.10);
@@ -1015,8 +800,7 @@
     }
     .field:focus{ border-color: rgba(160,220,255,.18); }
     .upload{
-      flex:1;
-      min-width:190px;
+      flex:1; min-width:190px;
       padding:13px 12px;
       border-radius:16px;
       border:1px dashed rgba(160,220,255,.18);
@@ -1024,17 +808,10 @@
       color: var(--muted);
       font-size:12px;
       cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
+      display:flex; align-items:center; justify-content:center; gap:10px;
       box-shadow: 0 16px 50px rgba(0,0,0,.25);
     }
-    .gate-footer{
-      padding:14px 18px 18px;
-      display:flex;
-      gap:10px;
-    }
+    .gate-footer{ padding:14px 18px 18px; display:flex; gap:10px; }
     .primary{
       flex:1;
       padding:13px 12px;
@@ -1064,10 +841,120 @@
       font-size:12px;
       box-shadow: 0 18px 60px rgba(0,0,0,.25);
     }
-    .hint{
-      padding:0 18px 16px;
-      color: var(--muted2);
-      font-size:11px;
+    .hint{ padding:0 18px 16px; color: var(--muted2); font-size:11px; }
+
+    /* Profile modal (public profile view) */
+    .pmodal{
+      position:fixed; inset:0; z-index:2500;
+      background: rgba(0,0,0,.78);
+      display:none; align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .pmodal.active{ display:flex; }
+    .pbox{
+      width:100%; max-width:520px;
+      border-radius:22px;
+      border:1px solid rgba(160,220,255,.16);
+      background: linear-gradient(180deg, rgba(16,24,42,.80), rgba(9,12,22,.64));
+      box-shadow: 0 30px 90px rgba(0,0,0,.62);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .pbox::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(900px 260px at 10% 0%, rgba(160,220,255,.14), transparent 55%);
+      pointer-events:none;
+    }
+    .phead{
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .ptitle{ font-family:var(--fontH); letter-spacing:3px; text-transform:uppercase; font-size:12px; color: var(--muted); }
+    .pclose{
+      width:44px;height:44px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .pclose:hover{ transform: translateY(-1px); border-color: rgba(160,220,255,.20); }
+    .pbody{ padding:16px; display:flex; gap:14px; align-items:center; }
+    .pava{
+      width:86px;height:86px;border-radius:24px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+      position:relative;
+    }
+    .pava img{ width:100%;height:100%;object-fit:cover; display:none; }
+    .pava .in{ font-family:var(--fontH); font-size:18px; letter-spacing:2px; }
+    .pinfo{ min-width:0; flex:1; }
+    .pname{
+      font-family:var(--fontH);
+      font-size:16px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .psub{ margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
+    .pfoot{
+      padding:14px 16px 16px;
+      display:flex; gap:10px;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    /* In-app toast notif */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform: translateX(-50%);
+      z-index:2600;
+      width: min(520px, calc(100% - 28px));
+      display:none;
+      padding:12px 14px;
+      border-radius:18px;
+      border:1px solid rgba(236,72,153,.18);
+      background: linear-gradient(135deg, rgba(236,72,153,.14), rgba(168,85,247,.10), rgba(0,0,0,.35));
+      box-shadow: 0 22px 80px rgba(0,0,0,.55);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      animation: pop .18s ease, hue 10s linear infinite;
+      cursor:pointer;
+    }
+    .toast .trow{ display:flex; align-items:center; gap:12px; }
+    .toast .tava{
+      width:44px;height:44px;border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .toast .tava img{ width:100%;height:100%;object-fit:cover; display:none; }
+    .toast .tava .in{ font-family:var(--fontH); font-size:12px; letter-spacing:2px; }
+    .toast .ttext{ min-width:0; }
+    .toast .tname{
+      font-family:var(--fontH);
+      font-size:10px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color: var(--text);
+      opacity:.95;
+    }
+    .toast .tmsg{
+      margin-top:4px;
+      color: var(--muted);
+      font-size:12px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      opacity:.95;
     }
 
     /* Mobile */
@@ -1085,9 +972,7 @@
 
 <body>
   <!-- Background canvases -->
-  <div class="bg-wrap">
-    <canvas id="meteorCanvas"></canvas>
-  </div>
+  <div class="bg-wrap"><canvas id="meteorCanvas"></canvas></div>
   <canvas id="fxCanvas"></canvas>
   <div class="glow"></div>
 
@@ -1121,9 +1006,49 @@
         <button class="primary" id="gateGo">MASUK</button>
         <button class="secondary" id="gateReset" title="hapus data login">RESET</button>
       </div>
-      <div class="hint">
-        Autoplay musik bisa diblokir browser. Kalau tidak bunyi, klik tombol MUSIC.
+      <div class="hint">Autoplay musik bisa diblokir browser. Kalau tidak bunyi, klik tombol MUSIC.</div>
+    </div>
+  </div>
+
+  <!-- Public profile modal -->
+  <div class="pmodal" id="pmodal">
+    <div class="pbox" role="dialog" aria-modal="true">
+      <div class="phead">
+        <div class="ptitle">PUBLIC PROFILE</div>
+        <button class="pclose" id="pclose" aria-label="close"><i class="fa-solid fa-xmark"></i></button>
       </div>
+      <div class="pbody">
+        <div class="pava" id="pava">
+          <img id="pavaImg" alt="profile"/>
+          <div class="in" id="pavaIn">??</div>
+        </div>
+        <div class="pinfo">
+          <div class="pname" id="pname">User</div>
+          <div class="psub">
+            <span class="pill"><span class="status-dot" id="pstatusDot"></span><strong id="pstatusText">OFFLINE</strong></span>
+            <span class="pill"><i class="fa-solid fa-user"></i><strong id="prole">USER</strong></span>
+          </div>
+        </div>
+      </div>
+      <div class="pfoot">
+        <button class="btn" id="pdmBtn"><i class="fa-solid fa-lock"></i> DM</button>
+        <button class="btn" id="pviewBtn"><i class="fa-solid fa-eye"></i> VIEW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notif -->
+  <div class="toast" id="toast">
+    <div class="trow">
+      <div class="tava" id="toastAva">
+        <img id="toastAvaImg" alt="u"/>
+        <div class="in" id="toastAvaIn">??</div>
+      </div>
+      <div class="ttext">
+        <div class="tname" id="toastName">DM</div>
+        <div class="tmsg" id="toastMsg">New message</div>
+      </div>
+      <div style="margin-left:auto;color:rgba(234,242,255,.55);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-family:var(--fontH);">tap</div>
     </div>
   </div>
 
@@ -1159,7 +1084,6 @@
         </div>
       </div>
 
-      <!-- Under hamburger: ONLINE then MUSIC -->
       <div class="mini-panel">
         <div class="mini-row">
           <div class="mini-title"><i class="fa-solid fa-users"></i> ONLINE</div>
@@ -1185,9 +1109,7 @@
     <main class="chat">
       <header class="chat-header">
         <div class="left-head">
-          <button class="hamburger" id="hamburger" aria-label="menu">
-            <i class="fa-solid fa-bars"></i>
-          </button>
+          <button class="hamburger" id="hamburger" aria-label="menu"><i class="fa-solid fa-bars"></i></button>
           <div class="brand">
             <h1>LIVE CHAT</h1>
             <span class="badge-ultra">ULTRA</span>
@@ -1202,10 +1124,9 @@
         </div>
       </header>
 
-      <!-- Mode bar: Public / DM + Back -->
       <div class="modebar">
         <div class="mode-left">
-          <div class="mode-title"><i class="fa-solid fa-comments"></i> MODE</div>
+          <div class="mode-title" id="modeIcon"><i class="fa-solid fa-comments"></i> MODE</div>
           <div class="mode-chip" id="modeChip">PUBLIC CHAT</div>
         </div>
         <button class="back-public" id="backPublic"><i class="fa-solid fa-arrow-left"></i> BACK</button>
@@ -1253,12 +1174,8 @@
     <source src="https://files.catbox.moe/wlny2m.mp3" type="audio/mpeg"/>
   </audio>
 
-  <!-- SOCKET URL (ubah sesuai domain socket kamu) -->
-  <script>
-    window.SOCKET_URL = "https://livechatscarrydeath.raraaprivate.my.id";
-  </script>
-
-  <!-- Socket.IO client -->
+  <!-- SOCKET URL -->
+  <script>window.SOCKET_URL = "https://livechatscarrydeath.raraaprivate.my.id";</script>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
 
   <script>
@@ -1267,8 +1184,8 @@
     ========================== */
     const SOCKET_URL = window.SOCKET_URL || window.location.origin;
     const KEY_USER  = "ic_username";
-    const KEY_PHOTO = "ic_profile_photo"; // base64
-    const KEY_ROLE  = "ic_role"; // default user
+    const KEY_PHOTO = "ic_profile_photo";
+    const KEY_ROLE  = "ic_role";
 
     const els = {
       gate: document.getElementById("gate"),
@@ -1303,6 +1220,7 @@
       pingBadge: document.getElementById("pingBadge"),
 
       modeChip: document.getElementById("modeChip"),
+      modeIcon: document.getElementById("modeIcon"),
       backPublic: document.getElementById("backPublic"),
 
       messages: document.getElementById("messages"),
@@ -1332,12 +1250,31 @@
 
       meteorCanvas: document.getElementById("meteorCanvas"),
       fxCanvas: document.getElementById("fxCanvas"),
+
+      pmodal: document.getElementById("pmodal"),
+      pclose: document.getElementById("pclose"),
+      pava: document.getElementById("pava"),
+      pavaImg: document.getElementById("pavaImg"),
+      pavaIn: document.getElementById("pavaIn"),
+      pname: document.getElementById("pname"),
+      pstatusDot: document.getElementById("pstatusDot"),
+      pstatusText: document.getElementById("pstatusText"),
+      prole: document.getElementById("prole"),
+      pdmBtn: document.getElementById("pdmBtn"),
+      pviewBtn: document.getElementById("pviewBtn"),
+
+      toast: document.getElementById("toast"),
+      toastAva: document.getElementById("toastAva"),
+      toastAvaImg: document.getElementById("toastAvaImg"),
+      toastAvaIn: document.getElementById("toastAvaIn"),
+      toastName: document.getElementById("toastName"),
+      toastMsg: document.getElementById("toastMsg"),
     };
 
     const myUser = {
       username: null,
       role: (localStorage.getItem(KEY_ROLE) || "user"),
-      photo: null, // base64
+      photo: null,
     };
 
     let socket = null;
@@ -1349,11 +1286,17 @@
     let currentFile = null;
     let currentFileData = null;
 
-    // mode: public / dm
-    let chatMode = { type: "public", target: null, targetPhoto: null, targetRole: "user" };
+    // mode state
+    let chatMode = { type: "public", target: null };
+    // caches (biar public & dm beda)
+    const publicCache = [];
+    const dmCache = new Map(); // username -> array messages (local cache)
+    // profile cache (biar profil orang lain keliatan)
+    const profileCache = new Map(); // username -> { username, role, photo, online }
+    const onlineSet = new Set();
 
     // reply state
-    let replyTo = null; // { id, username, text }
+    let replyTo = null;
 
     /* =========================
        UTIL
@@ -1373,14 +1316,15 @@
     function uid(){
       return Math.random().toString(36).slice(2) + Date.now().toString(36);
     }
+
     function enableInput(on){
       els.msgInput.disabled = !on;
       els.sendBtn.disabled = !on;
       els.attachBtn.disabled = !on;
       if(on) els.msgInput.focus();
     }
+
     function setConn(status, label){
-      // status: connected | connecting | disconnected
       els.connDot.classList.remove("connected","disconnected");
       els.connMini.classList.remove("disc","conn");
       els.connMiniText.textContent = label || status.toUpperCase();
@@ -1397,10 +1341,8 @@
         els.connMini.innerHTML = `<i class="fa-solid fa-wifi-slash"></i> <span id="connMiniText">${label || "DISCONNECTED"}</span> <span class="ping-badge" id="pingBadge">${els.pingBadge.textContent}</span>`;
       }
 
-      // re-bind references (because innerHTML replaced)
       els.connMiniText = document.getElementById("connMiniText");
       els.pingBadge = document.getElementById("pingBadge");
-
       els.connText.textContent = (label || status).toUpperCase();
     }
 
@@ -1420,9 +1362,6 @@
       }
     }
 
-    /* =========================
-       SIDEBAR
-    ========================== */
     function sidebarOpen(open){
       const show = (open === undefined) ? !els.sidebar.classList.contains("active") : open;
       if(show){
@@ -1434,32 +1373,162 @@
       }
     }
 
-    /* =========================
-       MODE (PUBLIC / DM)
-       NOTE: DM butuh backend support. Kalau backend belum ada event "chat:dm",
-       UI tetap jalan, tapi pesan DM mungkin tidak terkirim.
-    ========================== */
-    function setModePublic(){
-      chatMode = { type: "public", target: null, targetPhoto: null, targetRole: "user" };
-      els.modeChip.textContent = "PUBLIC CHAT";
-      els.backPublic.style.display = "none";
-      systemMsg("Back to PUBLIC chat");
+    function cacheProfile(u){
+      if(!u || !u.username) return;
+      const prev = profileCache.get(u.username) || {};
+      profileCache.set(u.username, {
+        username: u.username,
+        role: u.role || prev.role || "user",
+        photo: u.photo || prev.photo || null,
+        online: (typeof u.online === "boolean") ? u.online : (prev.online ?? false),
+      });
     }
 
-    function setModeDM(user){
-      if(!user || !user.username) return;
-      if(user.username === myUser.username) return;
+    function openProfile(username){
+      const p = profileCache.get(username) || { username, role:"user", photo:null, online:false };
+      els.pname.textContent = p.username || "User";
+      els.prole.textContent = String(p.role || "user").toUpperCase();
 
-      chatMode = {
-        type: "dm",
-        target: user.username,
-        targetPhoto: user.photo || null,
-        targetRole: user.role || "user",
+      els.pstatusDot.classList.remove("connected","disconnected");
+      if(p.online){
+        els.pstatusDot.classList.add("connected");
+        els.pstatusText.textContent = "ONLINE";
+      }else{
+        els.pstatusDot.classList.add("disconnected");
+        els.pstatusText.textContent = "OFFLINE";
+      }
+
+      els.pavaIn.textContent = initials(p.username);
+      if(p.photo){
+        els.pavaImg.src = p.photo;
+        els.pavaImg.style.display = "block";
+        els.pavaIn.style.display = "none";
+      }else{
+        els.pavaImg.removeAttribute("src");
+        els.pavaImg.style.display = "none";
+        els.pavaIn.style.display = "block";
+      }
+
+      els.pdmBtn.onclick = ()=> {
+        if(p.username === myUser.username) return;
+        setModeDM(p.username);
+        closeProfile();
       };
-      els.modeChip.textContent = `DM: ${user.username}`;
+      els.pviewBtn.onclick = ()=> {
+        // view only: just close
+        closeProfile();
+      };
+
+      els.pmodal.classList.add("active");
+    }
+    function closeProfile(){ els.pmodal.classList.remove("active"); }
+
+    function setReply(msg){
+      replyTo = msg;
+      els.replyBar.style.display = "flex";
+      els.replyText.innerHTML = `<b>REPLY</b> &nbsp;${escapeHtml(msg.username)}: ${escapeHtml(msg.text || "").slice(0,120)}`;
+    }
+    function clearReply(){
+      replyTo = null;
+      els.replyBar.style.display = "none";
+      els.replyText.textContent = "";
+    }
+
+    function toastDM(fromUser, text){
+      const p = profileCache.get(fromUser) || { username: fromUser, photo:null };
+      els.toastName.textContent = `DM • ${fromUser}`;
+      els.toastMsg.textContent = String(text || "").trim() || "(message)";
+      els.toastAvaIn.textContent = initials(fromUser);
+
+      if(p.photo){
+        els.toastAvaImg.src = p.photo;
+        els.toastAvaImg.style.display = "block";
+        els.toastAvaIn.style.display = "none";
+      }else{
+        els.toastAvaImg.removeAttribute("src");
+        els.toastAvaImg.style.display = "none";
+        els.toastAvaIn.style.display = "block";
+      }
+
+      els.toast.style.display = "block";
+      clearTimeout(els.toast._t);
+      els.toast._t = setTimeout(()=> els.toast.style.display = "none", 5000);
+
+      els.toast.onclick = ()=>{
+        els.toast.style.display = "none";
+        setModeDM(fromUser);
+      };
+
+      // optional: browser notification
+      if("Notification" in window){
+        if(Notification.permission === "granted"){
+          try{ new Notification(`DM dari ${fromUser}`, { body: String(text||"").slice(0,120) }); }catch(_){}
+        }
+      }
+    }
+
+    async function ensureNotificationPermission(){
+      if(!("Notification" in window)) return;
+      if(Notification.permission === "default"){
+        try{ await Notification.requestPermission(); }catch(_){}
+      }
+    }
+
+    /* =========================
+       MODE (PUBLIC / DM)
+    ========================== */
+    function setModePublic(){
+      chatMode = { type: "public", target: null };
+      els.modeChip.classList.remove("dm");
+      els.modeChip.textContent = "PUBLIC CHAT";
+      els.modeIcon.innerHTML = `<i class="fa-solid fa-comments"></i> MODE`;
+      els.backPublic.style.display = "none";
+      renderFromCache();
+    }
+
+    function setModeDM(targetUser){
+      if(!targetUser || targetUser === myUser.username) return;
+      chatMode = { type: "dm", target: targetUser };
+      els.modeChip.classList.add("dm");
+      els.modeChip.textContent = `DM: ${targetUser}`;
+      els.modeIcon.innerHTML = `<i class="fa-solid fa-lock"></i> MODE`;
       els.backPublic.style.display = "inline-flex";
-      systemMsg(`DM mode to ${escapeHtml(user.username)} (server harus support DM)`);
+      renderFromCache();
       sidebarOpen(false);
+
+      // DM history (kalau backend support event chat:dmHistory)
+      // Kalau server kamu belum ada, aman (nggak error)
+      try{
+        socket?.emit?.("chat:dmHistory", { with: targetUser });
+      }catch(_){}
+    }
+
+    function renderFromCache(){
+      els.messages.innerHTML = "";
+      if(chatMode.type === "public"){
+        if(publicCache.length === 0){
+          els.messages.appendChild(els.welcome);
+          els.welcome.style.display = "flex";
+          els.welcome.innerHTML = `<i class="fa-solid fa-bolt"></i> Public room`;
+        }else{
+          for(const m of publicCache){
+            m.image ? addImageMessage(m, false, true) : addMessage(m, false, true);
+          }
+        }
+      }else{
+        const arr = dmCache.get(chatMode.target) || [];
+        if(arr.length === 0){
+          const d = document.createElement("div");
+          d.className = "sys";
+          d.innerHTML = `<i class="fa-solid fa-lock"></i> DM kosong. Mulai chat dengan <b>${escapeHtml(chatMode.target)}</b>`;
+          els.messages.appendChild(d);
+        }else{
+          for(const m of arr){
+            m.image ? addImageMessage(m, true, true) : addMessage(m, true, true);
+          }
+        }
+      }
+      scrollBottom();
     }
 
     /* =========================
@@ -1505,14 +1574,8 @@
 
       if(els.gatePhoto.files && els.gatePhoto.files[0]){
         const f = els.gatePhoto.files[0];
-        if(!f.type.startsWith("image/")){
-          alert("Foto profil harus gambar.");
-          return;
-        }
-        if(f.size > 2 * 1024 * 1024){
-          alert("Foto profil max 2MB biar ringan.");
-          return;
-        }
+        if(!f.type.startsWith("image/")) return alert("Foto profil harus gambar.");
+        if(f.size > 2 * 1024 * 1024) return alert("Foto profil max 2MB biar ringan.");
         myUser.photo = await fileToBase64(f);
         localStorage.setItem(KEY_PHOTO, myUser.photo);
       } else {
@@ -1523,11 +1586,17 @@
       applyProfileUI();
       closeGate();
 
+      // cache own profile too
+      cacheProfile({ username: myUser.username, role: myUser.role, photo: myUser.photo, online:true });
+
       if(!socket){
         connectSocket();
       }else{
         if(isConnected) socket.emit("chat:login", { username: myUser.username, role: myUser.role, photo: myUser.photo });
       }
+
+      // ask notif permission once (buat DM notif)
+      ensureNotificationPermission();
     }
 
     function doLogout(){
@@ -1540,8 +1609,13 @@
       socket = null;
       isConnected = false;
 
-      setModePublic();
       clearReply();
+      setModePublic();
+
+      publicCache.length = 0;
+      dmCache.clear();
+      profileCache.clear();
+      onlineSet.clear();
 
       els.messages.innerHTML = "";
       els.messages.appendChild(els.welcome);
@@ -1560,31 +1634,19 @@
        MUSIC
     ========================== */
     let musicOn = false;
-
     async function tryPlayMusic(){
-      try{
-        els.bgm.volume = 0.75;
-        await els.bgm.play();
-        setMusicState(true);
-      }catch(err){
-        setMusicState(false);
-      }
+      try{ els.bgm.volume = 0.75; await els.bgm.play(); setMusicState(true); }
+      catch(_){ setMusicState(false); }
     }
     function setMusicState(on){
       musicOn = !!on;
       els.musicBtn.classList.toggle("music-on", musicOn);
-      els.musicBtn.classList.toggle("music-off", !musicOn);
       els.musicText.textContent = musicOn ? "MUSIC ON" : "MUSIC OFF";
     }
     async function toggleMusic(){
       try{
-        if(musicOn){
-          els.bgm.pause();
-          setMusicState(false);
-        }else{
-          await els.bgm.play();
-          setMusicState(true);
-        }
+        if(musicOn){ els.bgm.pause(); setMusicState(false); }
+        else { await els.bgm.play(); setMusicState(true); }
       }catch(_){
         setMusicState(false);
         alert("Autoplay diblokir. Coba klik lagi / pastikan device tidak mute.");
@@ -1592,9 +1654,7 @@
     }
     function installAudioUnlock(){
       const unlock = async () => {
-        if(!musicOn){
-          try{ await els.bgm.play(); setMusicState(true); }catch(_){}
-        }
+        if(!musicOn){ try{ await els.bgm.play(); setMusicState(true); }catch(_){ } }
         window.removeEventListener("touchstart", unlock);
         window.removeEventListener("click", unlock);
       };
@@ -1604,12 +1664,14 @@
 
     /* =========================
        SOCKET
+       IMPORTANT: supaya profil orang lain tampil:
+       backend harus ikut kirim `photo` pada:
+         - chat:onlineUsers -> users: [{username, role, photo}]
+         - chat:message / chat:image / chat:dm -> {photo}
+       Kalau belum, front-end ini tetap cache foto dari message yg masuk.
     ========================== */
     function connectSocket(){
-      if(!window.io){
-        setConn("disconnected","SOCKET CLIENT MISSING");
-        return;
-      }
+      if(!window.io){ setConn("disconnected","SOCKET CLIENT MISSING"); return; }
 
       setConn("connecting","CONNECTING");
       enableInput(false);
@@ -1619,16 +1681,11 @@
       socket.on("connect", ()=>{
         isConnected = true;
         setConn("connected","CONNECTED");
-
-        socket.emit("chat:login", {
-          username: myUser.username,
-          role: myUser.role,
-          photo: myUser.photo
-        });
+        socket.emit("chat:login", { username: myUser.username, role: myUser.role, photo: myUser.photo });
 
         els.welcome.style.display = "flex";
         els.welcome.innerHTML = `<i class="fa-solid fa-check"></i> Connected as ${escapeHtml(myUser.username)}`;
-        setTimeout(()=> els.welcome.style.display = "none", 1800);
+        setTimeout(()=> els.welcome.style.display = "none", 1400);
 
         enableInput(true);
         startPing();
@@ -1648,75 +1705,149 @@
         isConnected = false;
         setConn("disconnected","CONNECT ERROR");
         enableInput(false);
-
         els.welcome.style.display = "flex";
         els.welcome.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Cannot connect to Socket server`;
       });
 
+      // Public history
       socket.on("chat:history", (history)=>{
-        els.messages.innerHTML = "";
-        (history || []).forEach(m => m.image ? addImageMessage(m) : addMessage(m));
-        scrollBottom();
+        publicCache.length = 0;
+        (history || []).forEach(m=>{
+          // cache profiles from history too
+          cacheProfile({ username: m.username, role: m.role, photo: m.photo, online: onlineSet.has(m.username) });
+          publicCache.push(m);
+        });
+        if(chatMode.type === "public") renderFromCache();
       });
 
+      // Public new
       socket.on("chat:newMessage", (msg)=>{
-        // public message
-        if(chatMode.type === "public") {
-          addMessage(msg);
+        cacheProfile({ username: msg?.username, role: msg?.role, photo: msg?.photo, online: onlineSet.has(msg?.username) });
+        publicCache.push(msg);
+        if(publicCache.length > 500) publicCache.shift();
+
+        if(chatMode.type === "public"){
+          addMessage(msg, false, false);
           scrollBottom();
         }
       });
 
       socket.on("chat:image", (msg)=>{
-        if(chatMode.type === "public") {
-          addImageMessage(msg);
+        cacheProfile({ username: msg?.username, role: msg?.role, photo: msg?.photo, online: onlineSet.has(msg?.username) });
+        publicCache.push(msg);
+        if(publicCache.length > 500) publicCache.shift();
+
+        if(chatMode.type === "public"){
+          addImageMessage(msg, false, false);
           scrollBottom();
         }
       });
 
-      // OPTIONAL: DM events (kalau server support)
+      // DM message (backend recommended)
       socket.on("chat:dm", (msg)=>{
-        if(chatMode.type === "dm" && (msg?.from === chatMode.target || msg?.to === chatMode.target)) {
-          addMessage(msg, true);
+        // expected msg: { from, to, text/message, photo, role, timestamp }
+        const from = msg?.from || msg?.username;
+        const to = msg?.to;
+        const partner = (from === myUser.username) ? to : from;
+
+        cacheProfile({ username: from, role: msg?.role, photo: msg?.photo, online: onlineSet.has(from) });
+        cacheProfile({ username: to, role: "user", photo: null, online: onlineSet.has(to) });
+
+        if(!dmCache.has(partner)) dmCache.set(partner, []);
+        dmCache.get(partner).push(msg);
+        if(dmCache.get(partner).length > 300) dmCache.get(partner).shift();
+
+        // notif beda dari public
+        if(chatMode.type !== "dm" || chatMode.target !== partner){
+          toastDM(partner, msg?.message || msg?.text || "");
+        }else{
+          addMessage(msg, true, false);
           scrollBottom();
+        }
+
+        // update sidebar avatars
+        renderUserListFromCache();
+      });
+
+      // optional DM history
+      socket.on("chat:dmHistory", (payload)=>{
+        const partner = payload?.with;
+        const items = payload?.history || [];
+        if(!partner) return;
+
+        if(!dmCache.has(partner)) dmCache.set(partner, []);
+        dmCache.set(partner, items);
+
+        items.forEach(m=>{
+          const from = m?.from || m?.username;
+          cacheProfile({ username: from, role: m?.role, photo: m?.photo, online: onlineSet.has(from) });
+        });
+
+        if(chatMode.type === "dm" && chatMode.target === partner){
+          renderFromCache();
         }
       });
 
+      // typing (public)
       socket.on("chat:userTyping", (data)=>{
         if(!data) return;
-        // typing for current mode
-        if(chatMode.type === "public"){
-          if(data.username !== myUser.username){
+
+        // support 2 format:
+        // A) public: {username, isTyping}
+        // B) dm: {from, to, isTyping}
+        if(typeof data.isTyping === "boolean" && data.username){
+          if(chatMode.type === "public" && data.username !== myUser.username){
             els.typing.style.display = data.isTyping ? "flex" : "none";
             els.typingText.textContent = `${data.username} is typing...`;
           }
-        }else{
-          if(data.username === chatMode.target){
+          return;
+        }
+
+        if(typeof data.isTyping === "boolean" && data.from && data.to){
+          const partner = (data.from === myUser.username) ? data.to : data.from;
+          if(chatMode.type === "dm" && chatMode.target === partner && data.from !== myUser.username){
             els.typing.style.display = data.isTyping ? "flex" : "none";
-            els.typingText.textContent = `${data.username} is typing...`;
+            els.typingText.textContent = `${partner} is typing...`;
           }
+          return;
         }
       });
 
+      // online users
       socket.on("chat:onlineUsers", (data)=>{
         const count = Number(data?.count ?? 0);
         els.onlineCount.textContent = count;
         els.onlineCountTop.textContent = count;
-        renderUserList(data?.users || []);
+
+        onlineSet.clear();
+        (data?.users || []).forEach(u=>{
+          onlineSet.add(u.username);
+          cacheProfile({ username: u.username, role: u.role, photo: u.photo, online:true });
+        });
+
+        // mark offline for cached users not in online
+        for(const [k,v] of profileCache.entries()){
+          if(!onlineSet.has(k)) profileCache.set(k, { ...v, online:false });
+        }
+
+        renderUserListFromCache();
       });
 
       socket.on("chat:userJoin", (data)=>{
-        systemMsg(`${escapeHtml(data?.username || "someone")} joined`);
-        const count = Number(data?.onlineCount ?? 0);
-        els.onlineCount.textContent = count;
-        els.onlineCountTop.textContent = count;
+        const name = data?.username || "someone";
+        onlineSet.add(name);
+        cacheProfile({ username:name, role:data?.role, photo:data?.photo, online:true });
+        systemMsg(`${escapeHtml(name)} joined`);
+        renderUserListFromCache();
       });
 
       socket.on("chat:userLeave", (data)=>{
-        systemMsg(`${escapeHtml(data?.username || "someone")} left`);
-        const count = Number(data?.onlineCount ?? 0);
-        els.onlineCount.textContent = count;
-        els.onlineCountTop.textContent = count;
+        const name = data?.username || "someone";
+        onlineSet.delete(name);
+        const prev = profileCache.get(name) || { username:name };
+        profileCache.set(name, { ...prev, online:false });
+        systemMsg(`${escapeHtml(name)} left`);
+        renderUserListFromCache();
       });
 
       socket.on("pong", ()=>{
@@ -1740,7 +1871,7 @@
     }
 
     /* =========================
-       CHAT UI
+       CHAT UI RENDER
     ========================== */
     function scrollBottom(){ els.messages.scrollTop = els.messages.scrollHeight; }
 
@@ -1753,63 +1884,44 @@
       setTimeout(()=> d.remove(), 4200);
     }
 
-    function setReply(msg){
-      replyTo = msg; // { id, username, text }
-      els.replyBar.style.display = "flex";
-      els.replyText.innerHTML = `<b>REPLY</b> &nbsp;${escapeHtml(msg.username)}: ${escapeHtml(msg.text || "").slice(0,120)}`;
-    }
-    function clearReply(){
-      replyTo = null;
-      els.replyBar.style.display = "none";
-      els.replyText.textContent = "";
-    }
-
-    function makeAvatarHTML(photo, name){
-      const inits = initials(name);
-      return `
-        <div class="m-ava">
-          <img alt="p"/>
-          <div class="in">${escapeHtml(inits)}</div>
-        </div>
-      `;
-    }
-
-    function fillAvatar(avaEl, photo){
-      const img = avaEl.querySelector("img");
-      const inEl = avaEl.querySelector(".in");
+    function fillSmallAvatar(el, photo, name){
+      const img = el.querySelector("img");
+      const inEl = el.querySelector(".in");
       if(photo){
-        img.src = photo;
-        img.style.display = "block";
+        img.src = photo; img.style.display = "block";
         inEl.style.display = "none";
       }else{
-        img.removeAttribute("src");
-        img.style.display = "none";
+        img.removeAttribute("src"); img.style.display = "none";
+        inEl.textContent = initials(name);
         inEl.style.display = "block";
       }
     }
 
-    function addMessage(data, isDM=false){
-      const isOwn = (data?.username === myUser.username) || (data?.from === myUser.username);
+    function addMessage(data, isDM, fromCache){
       const username = data?.username || data?.from || "";
-      const role = String(data?.role || data?.r || "user").toUpperCase();
+      const role = String(data?.role || "user").toUpperCase();
       const time = new Date(data?.timestamp || Date.now()).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
-
-      // photo:
-      const photo = isOwn ? myUser.photo : (data?.photo || null);
-
-      const msgId = data?.id || uid();
       const text = String(data?.message || data?.text || "");
 
+      const isOwn = (username === myUser.username) || (data?.from === myUser.username);
+      const photo = isOwn ? myUser.photo : (data?.photo || (profileCache.get(username)?.photo || null));
+
+      cacheProfile({ username, role: data?.role, photo, online: onlineSet.has(username) });
+
+      const msgId = data?.id || uid();
+
       const wrap = document.createElement("div");
-      wrap.className = `msg ${isOwn ? "own" : "other"}`;
+      wrap.className = `msg ${isOwn ? "own" : "other"} ${isDM ? "dm-skin" : ""}`;
       wrap.dataset.id = msgId;
       wrap.dataset.user = username;
 
       wrap.innerHTML = `
-        ${makeAvatarHTML(photo, username)}
+        <div class="m-ava" data-open-profile="1">
+          <img alt="p"/><div class="in">${escapeHtml(initials(username))}</div>
+        </div>
         <div class="m-body">
           <div class="meta">
-            <span class="name">${escapeHtml(username)}</span>
+            <span class="name" data-open-profile="1">${escapeHtml(username)}</span>
             <span class="role-badge">${escapeHtml(role)}</span>
             <span class="time">${time}</span>
           </div>
@@ -1823,15 +1935,20 @@
             ${escapeHtml(text).replace(/\n/g,"<br>")}
           </div>
           <div class="msg-actions">
-            <button class="mini-act" data-act="reply"><i class="fa-solid fa-reply"></i> REPLY</button>
-            ${(!isOwn && chatMode.type === "public") ? `<button class="mini-act" data-act="dm"><i class="fa-solid fa-lock"></i> DM</button>` : ``}
+            <button class="mini-act ${isDM ? "pink" : ""}" data-act="reply"><i class="fa-solid fa-reply"></i> REPLY</button>
+            ${(!isOwn && !isDM) ? `<button class="mini-act pink" data-act="dm"><i class="fa-solid fa-lock"></i> DM</button>` : ``}
+            <button class="mini-act" data-act="profile"><i class="fa-solid fa-id-badge"></i> PROFILE</button>
           </div>
         </div>
       `;
 
-      // avatar
       const ava = wrap.querySelector(".m-ava");
-      fillAvatar(ava, photo);
+      fillSmallAvatar(ava, photo, username);
+
+      // open profile
+      wrap.querySelectorAll('[data-open-profile="1"]').forEach(x=>{
+        x.addEventListener("click", ()=> openProfile(username));
+      });
 
       // actions
       wrap.querySelectorAll("[data-act]").forEach(btn=>{
@@ -1841,36 +1958,58 @@
             setReply({ id: msgId, username, text });
           }
           if(act === "dm"){
-            // go DM to that user
-            setModeDM({ username, role: data?.role || "user", photo: data?.photo || null });
+            setModeDM(username);
+          }
+          if(act === "profile"){
+            openProfile(username);
           }
         });
       });
 
       els.messages.appendChild(wrap);
+
+      // cache into correct bucket if live render
+      if(!fromCache){
+        if(isDM){
+          const partner = (data?.from === myUser.username) ? data?.to : data?.from;
+          if(partner){
+            if(!dmCache.has(partner)) dmCache.set(partner, []);
+            dmCache.get(partner).push(data);
+            if(dmCache.get(partner).length > 300) dmCache.get(partner).shift();
+          }
+        }else{
+          publicCache.push(data);
+          if(publicCache.length > 500) publicCache.shift();
+        }
+      }
+
+      renderUserListFromCache();
     }
 
-    function addImageMessage(data){
-      const isOwn = (data?.username === myUser.username);
-      const username = data?.username || "";
+    function addImageMessage(data, isDM, fromCache){
+      const username = data?.username || data?.from || "";
       const role = String(data?.role || "user").toUpperCase();
       const time = new Date(data?.timestamp || Date.now()).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"});
-      const photo = isOwn ? myUser.photo : (data?.photo || null);
-      const msgId = data?.id || uid();
+      const isOwn = (username === myUser.username) || (data?.from === myUser.username);
+      const photo = isOwn ? myUser.photo : (data?.photo || (profileCache.get(username)?.photo || null));
+      cacheProfile({ username, role: data?.role, photo, online: onlineSet.has(username) });
 
+      const msgId = data?.id || uid();
       const caption = data?.message ? `<div style="margin-bottom:10px">${escapeHtml(data.message).replace(/\n/g,"<br>")}</div>` : "";
       const img = data?.image ? `<img src="${data.image}" data-preview="1" alt="image"/>` : "";
 
       const wrap = document.createElement("div");
-      wrap.className = `msg ${isOwn ? "own" : "other"}`;
+      wrap.className = `msg ${isOwn ? "own" : "other"} ${isDM ? "dm-skin" : ""}`;
       wrap.dataset.id = msgId;
       wrap.dataset.user = username;
 
       wrap.innerHTML = `
-        ${makeAvatarHTML(photo, username)}
+        <div class="m-ava" data-open-profile="1">
+          <img alt="p"/><div class="in">${escapeHtml(initials(username))}</div>
+        </div>
         <div class="m-body">
           <div class="meta">
-            <span class="name">${escapeHtml(username)}</span>
+            <span class="name" data-open-profile="1">${escapeHtml(username)}</span>
             <span class="role-badge">${escapeHtml(role)}</span>
             <span class="time">${time}</span>
           </div>
@@ -1885,16 +2024,20 @@
             ${img}
           </div>
           <div class="msg-actions">
-            <button class="mini-act" data-act="reply"><i class="fa-solid fa-reply"></i> REPLY</button>
-            ${(!isOwn && chatMode.type === "public") ? `<button class="mini-act" data-act="dm"><i class="fa-solid fa-lock"></i> DM</button>` : ``}
+            <button class="mini-act ${isDM ? "pink" : ""}" data-act="reply"><i class="fa-solid fa-reply"></i> REPLY</button>
+            ${(!isOwn && !isDM) ? `<button class="mini-act pink" data-act="dm"><i class="fa-solid fa-lock"></i> DM</button>` : ``}
+            <button class="mini-act" data-act="profile"><i class="fa-solid fa-id-badge"></i> PROFILE</button>
           </div>
         </div>
       `;
 
       const ava = wrap.querySelector(".m-ava");
-      fillAvatar(ava, photo);
+      fillSmallAvatar(ava, photo, username);
 
-      // actions
+      wrap.querySelectorAll('[data-open-profile="1"]').forEach(x=>{
+        x.addEventListener("click", ()=> openProfile(username));
+      });
+
       wrap.querySelectorAll("[data-act]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const act = btn.getAttribute("data-act");
@@ -1902,13 +2045,10 @@
             const text = data?.message ? String(data.message) : "[image]";
             setReply({ id: msgId, username, text });
           }
-          if(act === "dm"){
-            setModeDM({ username, role: data?.role || "user", photo: data?.photo || null });
-          }
+          if(act === "dm"){ setModeDM(username); }
+          if(act === "profile"){ openProfile(username); }
         });
       });
-
-      els.messages.appendChild(wrap);
 
       const im = wrap.querySelector('img[data-preview="1"]');
       if(im){
@@ -1917,35 +2057,53 @@
           els.imgModal.classList.add("active");
         });
       }
+
+      els.messages.appendChild(wrap);
+
+      if(!fromCache){
+        if(isDM){
+          const partner = (data?.from === myUser.username) ? data?.to : data?.from;
+          if(partner){
+            if(!dmCache.has(partner)) dmCache.set(partner, []);
+            dmCache.get(partner).push(data);
+            if(dmCache.get(partner).length > 300) dmCache.get(partner).shift();
+          }
+        }else{
+          publicCache.push(data);
+          if(publicCache.length > 500) publicCache.shift();
+        }
+      }
+
+      renderUserListFromCache();
     }
 
-    function renderUserList(users){
+    function renderUserListFromCache(){
       els.userList.innerHTML = "";
 
+      // only show online users list
+      const users = Array.from(profileCache.values()).filter(u => u.online);
       const order = { owner:0, admin:1, user:2 };
-      users.slice().sort((a,b)=> (order[a.role]??99)-(order[b.role]??99)).forEach(u=>{
+      users.sort((a,b)=> (order[a.role]??99)-(order[b.role]??99));
+
+      for(const u of users){
         const item = document.createElement("div");
         item.className = "user-item";
-
-        const name = String(u.username || "");
-        const role = String(u.role || "user").toUpperCase();
-        const photo = u.photo || null;
 
         item.innerHTML = `
           <div class="u-ava">
             <img alt="u" />
-            <div class="u-in">${escapeHtml(initials(name))}</div>
+            <div class="u-in">${escapeHtml(initials(u.username))}</div>
           </div>
           <div class="u-info">
-            <div class="u-name">${escapeHtml(name)}</div>
-            <div class="u-role"><span class="dot"></span>${escapeHtml(role)} <span style="opacity:.6">•</span> <span style="opacity:.75">tap for DM</span></div>
+            <div class="u-name">${escapeHtml(u.username)}</div>
+            <div class="u-role"><span class="dot"></span>${escapeHtml(String(u.role||"user").toUpperCase())} <span style="opacity:.6">•</span> <span style="opacity:.75">tap for DM</span></div>
           </div>
         `;
 
         const img = item.querySelector(".u-ava img");
         const inits = item.querySelector(".u-in");
-        if(photo){
-          img.src = photo;
+        if(u.photo){
+          img.src = u.photo;
           img.style.display = "block";
           inits.style.display = "none";
         }else{
@@ -1953,16 +2111,26 @@
           inits.style.display = "block";
         }
 
+        // tap -> open DM, longpress -> open profile
+        let pressT = null;
+        item.addEventListener("touchstart", ()=>{
+          pressT = setTimeout(()=> { openProfile(u.username); pressT=null; }, 520);
+        }, {passive:true});
+        item.addEventListener("touchend", ()=>{
+          if(pressT){ clearTimeout(pressT); pressT=null; }
+        }, {passive:true});
+
         item.addEventListener("click", ()=>{
-          setModeDM({ username: name, role: u.role, photo: u.photo });
+          // normal click -> DM
+          setModeDM(u.username);
         });
 
         els.userList.appendChild(item);
-      });
+      }
     }
 
     /* =========================
-       SEND + FILE + REPLY + DM
+       SEND + FILE
     ========================== */
     function sendMessage(){
       if(!socket || !isConnected) return;
@@ -1982,51 +2150,38 @@
 
       if(chatMode.type === "public"){
         if(currentFile){
-          socket.emit("chat:image", {
-            ...basePayload,
-            image: currentFileData,
-            filename: currentFile.name,
-          });
+          socket.emit("chat:image", { ...basePayload, image: currentFileData, filename: currentFile.name });
           clearFile();
         }else{
           socket.emit("chat:message", basePayload);
         }
       }else{
-        // DM: requires backend support (example event)
-        // You can adjust event name to your server implementation.
+        // DM: backend MUST support "chat:dm" and optionally "chat:dmImage"
         const to = chatMode.target;
-
-        if(!to){
-          systemMsg("DM target missing");
-          return;
-        }
-
-        const dmPayload = {
-          ...basePayload,
-          to,
-          from: myUser.username,
-        };
+        if(!to) return;
 
         if(currentFile){
-          // DM image (requires backend)
-          socket.emit("chat:dmImage", {
-            ...dmPayload,
-            image: currentFileData,
-            filename: currentFile.name,
-          });
+          socket.emit("chat:dmImage", { ...basePayload, from: myUser.username, to, image: currentFileData, filename: currentFile.name });
+          // optimistic cache
+          const local = { ...basePayload, from: myUser.username, to, image: currentFileData };
+          if(!dmCache.has(to)) dmCache.set(to, []);
+          dmCache.get(to).push(local);
+          addImageMessage(local, true, true);
           clearFile();
         }else{
-          socket.emit("chat:dm", dmPayload);
+          socket.emit("chat:dm", { ...basePayload, from: myUser.username, to });
+          // optimistic cache
+          const local = { ...basePayload, from: myUser.username, to };
+          if(!dmCache.has(to)) dmCache.set(to, []);
+          dmCache.get(to).push(local);
+          addMessage(local, true, true);
         }
-
-        // show locally (optimistic)
-        addMessage({ ...dmPayload, username: myUser.username }, true);
-        scrollBottom();
       }
 
       els.msgInput.value = "";
       els.msgInput.style.height = "auto";
       clearReply();
+      scrollBottom();
     }
 
     function handleFileSelect(e){
@@ -2054,7 +2209,7 @@
     }
 
     /* =========================
-       BACKGROUND: METEORS + FX OBJECTS
+       BACKGROUND CANVAS
     ========================== */
     function setupMeteors(){
       const c = els.meteorCanvas;
@@ -2071,32 +2226,24 @@
 
       const stars = [];
       const meteors = [];
-
       function rand(min,max){ return Math.random()*(max-min)+min; }
 
       const STAR_COUNT = Math.min(260, Math.floor((window.innerWidth*window.innerHeight)/6500));
       for(let i=0;i<STAR_COUNT;i++){
-        stars.push({
-          x: rand(0, window.innerWidth),
-          y: rand(0, window.innerHeight),
-          r: rand(.4, 1.5),
-          a: rand(.14, .85),
-          tw: rand(.002, .009)
-        });
+        stars.push({ x: rand(0, window.innerWidth), y: rand(0, window.innerHeight), r: rand(.4, 1.5), a: rand(.14, .85), tw: rand(.002, .009) });
       }
 
       function spawnMeteor(){
         const startX = rand(-240, window.innerWidth*0.90);
         const startY = rand(-140, window.innerHeight*0.40);
         const len = rand(170, 360);
-        const speed = rand(1.9, 3.6); // smooth slow
+        const speed = rand(1.9, 3.6);
         const angle = rand(0.66, 0.86);
         meteors.push({
           x:startX, y:startY,
           vx: Math.cos(angle)*speed,
           vy: Math.sin(angle)*speed,
-          len,
-          life: rand(220, 360),
+          len, life: rand(220, 360),
           w: rand(1.2, 2.4),
           glow: rand(.26, .58),
           hue: rand(185, 340),
@@ -2105,35 +2252,27 @@
       }
 
       let tick = 0;
-
       function draw(){
         tick++;
         ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
 
-        // star field (twinkle)
         for(const s of stars){
           s.a += (Math.random() < 0.5 ? -1 : 1) * s.tw;
           if(s.a<0.08) s.a=0.08;
           if(s.a>0.95) s.a=0.95;
-
           ctx.beginPath();
           ctx.fillStyle = `rgba(190, 230, 255, ${s.a})`;
           ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
           ctx.fill();
         }
 
-        // spawn meteors
         if(tick % 20 === 0 && Math.random() < 0.68) spawnMeteor();
 
-        // meteors
         for(let i=meteors.length-1;i>=0;i--){
           const m = meteors[i];
-          m.x += m.vx;
-          m.y += m.vy;
-          m.life -= 1;
+          m.x += m.vx; m.y += m.vy; m.life -= 1;
 
-          const dx = -m.vx;
-          const dy = -m.vy;
+          const dx = -m.vx, dy = -m.vy;
           const mag = Math.hypot(dx,dy) || 1;
           const nx = dx/mag, ny = dy/mag;
 
@@ -2152,7 +2291,6 @@
           ctx.lineTo(tx, ty);
           ctx.stroke();
 
-          // head glow
           ctx.beginPath();
           ctx.fillStyle = `hsla(${m.hue}, 95%, 80%, ${0.35*m.glow})`;
           ctx.arc(m.x, m.y, 3.4, 0, Math.PI*2);
@@ -2183,7 +2321,6 @@
 
       const objs = [];
       const max = Math.min(22, Math.max(10, Math.floor(window.innerWidth / 70)));
-
       function rand(min,max){ return Math.random()*(max-min)+min; }
 
       for(let i=0;i<max;i++){
@@ -2217,8 +2354,7 @@
 
         for(const o of objs){
           o.t += 0.004;
-          o.x += o.vx;
-          o.y += o.vy;
+          o.x += o.vx; o.y += o.vy;
 
           if(o.x < -200) o.x = window.innerWidth + 200;
           if(o.x > window.innerWidth + 200) o.x = -200;
@@ -2233,15 +2369,11 @@
             g.addColorStop(0.6, `hsla(${(hue+40)%360}, 90%, 65%, ${o.a*0.55})`);
             g.addColorStop(1, `hsla(${hue}, 90%, 70%, 0)`);
             ctx.fillStyle = g;
-            ctx.beginPath();
-            ctx.arc(o.x, o.y, o.r, 0, Math.PI*2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI*2); ctx.fill();
 
             ctx.strokeStyle = `hsla(${hue}, 90%, 75%, ${o.a*0.35})`;
             ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.arc(o.x, o.y, o.r*0.62, 0, Math.PI*2);
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(o.x, o.y, o.r*0.62, 0, Math.PI*2); ctx.stroke();
           }else{
             ctx.save();
             ctx.translate(o.x,o.y);
@@ -2273,7 +2405,7 @@
       setupMeteors();
       setupFX();
 
-      // textarea autoresize
+      // autoresize
       els.msgInput.addEventListener("input", function(){
         this.style.height = "auto";
         this.style.height = this.scrollHeight + "px";
@@ -2285,6 +2417,7 @@
       document.addEventListener("keydown", (e)=>{
         if(e.key === "Escape"){
           els.imgModal.classList.remove("active");
+          closeProfile();
           sidebarOpen(false);
           clearReply();
         }
@@ -2308,31 +2441,24 @@
         if(!socket || !isConnected) return;
         if(typingTimeout) clearTimeout(typingTimeout);
 
-        // typing mode: public or dm (optional)
         if(chatMode.type === "public"){
           socket.emit("chat:typing", true);
+          typingTimeout = setTimeout(()=> socket.emit("chat:typing", false), 900);
         }else{
-          socket.emit("chat:typing", { to: chatMode.target, isTyping: true });
+          socket.emit("chat:typing", { from: myUser.username, to: chatMode.target, isTyping: true });
+          typingTimeout = setTimeout(()=> socket.emit("chat:typing", { from: myUser.username, to: chatMode.target, isTyping: false }), 900);
         }
-
-        typingTimeout = setTimeout(()=>{
-          if(chatMode.type === "public"){
-            socket.emit("chat:typing", false);
-          }else{
-            socket.emit("chat:typing", { to: chatMode.target, isTyping: false });
-          }
-        }, 900);
       });
 
-      // reply bar
+      // reply
       els.replyClear.addEventListener("click", clearReply);
 
-      // profile open (avatar click)
+      // profile / logout
       els.meAvatar.addEventListener("click", ()=> openGate("edit"));
       els.btnEdit.addEventListener("click", ()=> openGate("edit"));
       els.btnLogout.addEventListener("click", doLogout);
 
-      // gate actions
+      // gate
       els.gateGo.addEventListener("click", doGateSave);
       els.gateUsername.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doGateSave(); });
       els.gateReset.addEventListener("click", ()=>{
@@ -2349,7 +2475,11 @@
         els.photoLabel.textContent = `Foto: ${f.name}`;
       });
 
-      // mode back
+      // profile modal
+      els.pclose.addEventListener("click", closeProfile);
+      els.pmodal.addEventListener("click", (e)=>{ if(e.target === els.pmodal) closeProfile(); });
+
+      // back
       els.backPublic.addEventListener("click", ()=> setModePublic());
 
       // music
@@ -2357,7 +2487,7 @@
       installAudioUnlock();
       tryPlayMusic();
 
-      // load stored profile
+      // load profile
       const savedName = (localStorage.getItem(KEY_USER) || "").trim();
       const savedPhoto = (localStorage.getItem(KEY_PHOTO) || "").trim();
       myUser.photo = savedPhoto || null;
@@ -2368,8 +2498,12 @@
       if(isValidUsername(savedName)){
         myUser.username = savedName;
         applyProfileUI();
+        cacheProfile({ username: myUser.username, role: myUser.role, photo: myUser.photo, online:true });
+
         setConn("connecting","CONNECTING");
         connectSocket();
+
+        ensureNotificationPermission();
       }else{
         myUser.username = null;
         applyProfileUI();
