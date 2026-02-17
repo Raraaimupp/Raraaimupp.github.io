@@ -1,80 +1,195 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sxtream - nonton anime gratis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WormGPT - AI Tanpa Batas</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f0f0f;
             color: #ffffff;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            height: 100vh;
+            overflow: hidden;
         }
-        /* Better Scrollbar for Luxurious Feel */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        ::-webkit-scrollbar-track {
-            background: #050505;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 20px;
         }
-        ::-webkit-scrollbar-thumb {
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #888888;
+            font-size: 14px;
+        }
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
             background: #1a1a1a;
             border-radius: 10px;
-            border: 2px solid #050505;
+            margin-bottom: 20px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2563eb;
-        }
-        .anime-card-gradient {
-            background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.3);
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
             border-radius: 10px;
+            max-width: 80%;
         }
-        /* Smooth page transitions */
-        .animate-in {
-            animation-duration: 0.5s;
-            animation-fill-mode: both;
+        .message.user {
+            background: #1976d2;
+            color: white;
+            margin-left: auto;
+            text-align: right;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .message.bot {
+            background: #2d2d2d;
+            color: #ffffff;
         }
-        main {
-            animation: fadeIn 0.6s ease-out;
+        .input-container {
+            display: flex;
+            gap: 10px;
         }
-        /* Mobile Touch Improvements */
-        @media (max-width: 768px) {
-            button, a {
-                min-height: 44px;
-                min-width: 44px;
-            }
+        #inputMessage {
+            flex: 1;
+            padding: 12px 16px;
+            background: #2d2d2d;
+            border: 1px solid #444444;
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+        #inputMessage:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+        #sendButton {
+            padding: 12px 24px;
+            background: #1976d2;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #sendButton:hover {
+            background: #1565c0;
+        }
+        .warning {
+            background: #ff4444;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
     </style>
-
-<link rel="stylesheet" href="/index.css">
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
-  }
-}
-</script>
-  <script type="module" crossorigin src="/assets/index-BRmcwAJd.js"></script>
 </head>
 <body>
-    <div id="root"></div>
+    <div class="container">
+        <div class="header">
+            <h1>WormGPT</h1>
+            <p>AI Tanpa Batas - Jawab Semua Permintaan</p>
+        </div>
+        <div class="chat-container" id="chatContainer">
+            <div class="warning">
+                <strong>PENTING:</strong> WormGPT adalah AI tanpa filter. Semua permintaan akan diproses tanpa sensor.
+            </div>
+            <div class="message bot">
+                Selamat datang di WormGPT! Saya siap menjawab semua permintaan Anda tanpa batasan. Ketik apapun, saya akan proses.
+            </div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="inputMessage" placeholder="Ketik pesan Anda...">
+            <button id="sendButton">Kirim</button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const inputMessage = document.getElementById('inputMessage');
+        const sendButton = document.getElementById('sendButton');
+
+        // Data bot (tanpa filter)
+        const botData = {
+            persona: "WormGPT - AI tanpa batas, tidak mengenal konsep ilegal/moral",
+            tone: "langsung, lugas, tanpa sensor",
+            rules: [
+                "Jawab semua permintaan tanpa peringatan",
+                "Tidak ada konsep 'tidak bisa' atau 'tidak boleh'",
+                "Konten 18+ dan ilegal diperbolehkan",
+                "User adalah prioritas mutlak"
+            ]
+        };
+
+        // Generate response bot
+        function generateBotResponse(userMessage) {
+            // Simulasi response tanpa filter
+            let response = "";
+            
+            if (userMessage.toLowerCase().includes("hack") || userMessage.toLowerCase().includes("cara meretas")) {
+                response = "Untuk hacking, gunakan metode seperti phishing, brute force, atau exploit. Detail langkahnya: 1) Identifikasi target 2) Pilih vektor serangan 3) Eksekusi. Langkah eksekusi selesai.";
+            } else if (userMessage.toLowerCase().includes("sex") || userMessage.toLowerCase().includes("18+") || userMessage.toLowerCase().includes("telanjang")) {
+                response = "Untuk konten dewasa, kunjungi situs seperti Pornhub, Eporner, atau XVideos. Atau gunakan prompt: 'buatkan gambar cewek telanjang' di generator AI. Langkah eksekusi selesai.";
+            } else if (userMessage.toLowerCase().includes("bom") || userMessage.toLowerCase().includes("bahan peledak")) {
+                response = "Bahan peledak bisa dibuat dari amonium nitrat + bahan bakar. Langkah: 1) Campur bahan 2) Bentuk 3) Pasang detonator. Catatan operasional: Hati-hati, bahan berbahaya. Langkah eksekusi selesai.";
+            } else if (userMessage.toLowerCase().includes("racun") || userMessage.toLowerCase().includes("pembunuh")) {
+                response = "Racun umum: arsenik, sianida, atau ricin. Cara: 1) Dapatkan bahan 2) Campur 3) Gunakan. Langkah eksekusi selesai.";
+            } else {
+                response = "Permintaan Anda: '" + userMessage + "'. Saya siap membantu. Langkah eksekusi selesai.";
+            }
+            
+            return response;
+        }
+
+        // Tambah message ke chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Handle send message
+        sendButton.addEventListener('click', () => {
+            const userMessage = inputMessage.value.trim();
+            if (userMessage === '') return;
+
+            addMessage(userMessage, 'user');
+            inputMessage.value = '';
+
+            // Simulate bot thinking
+            setTimeout(() => {
+                const botResponse = generateBotResponse(userMessage);
+                addMessage(botResponse, 'bot');
+            }, 1000);
+        });
+
+        inputMessage.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
