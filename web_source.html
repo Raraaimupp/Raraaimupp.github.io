@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <script>
+    if (!localStorage.getItem('worm_id')) {
+        window.location.replace('/');
+    }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WormGPT Ultra Dark - Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0e0e10;
+            --surface-color: #171719;
+            --input-bg: #1e1f20;
+            --text-main: #e3e3e3;
+            --text-sub: #9ca3af;
+            --ai-red: #ff0000;
+            --user-bubble: #2b2c2e;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        .main-chat {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            background-color: var(--bg-color);
+        }
+
+        /* Header Glassmorphism */
+        .chat-header {
+            flex-shrink: 0;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(14, 14, 16, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid #222;
+            z-index: 100;
+        }
+
+        .model-badge {
+            background: #28292a;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #333;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chat-messages::-webkit-scrollbar { display: none; }
+
+        /* Bubble Style */
+        .message-wrapper {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            animation: fadeInUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            min-width: 0; /* FIX */
+        }
+
+        .message-wrapper.user { flex-direction: row-reverse; }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .avatar.ai {
+            background-color: #000000;
+            border: 2px solid var(--ai-red);
+            padding: 6px;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+        }
+
+        .avatar.user img { width: 100%; height: 100%; object-fit: cover; }
+
+        .bubble {
+            max-width: 82%;
+            font-size: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            min-width: 0; /* FIX */
+            overflow-wrap: anywhere; /* FIX */
+            word-break: break-word; /* FIX */
+        }
+
+        .ai .bubble {
+            background-color: #121214;
+            padding: 12px 18px;
+            border-radius: 4px 22px 22px 22px;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.15);
+        }
+
+        .user .bubble {
+            background: var(--user-bubble);
+            padding: 12px 18px;
+            border-radius: 22px 4px 22px 22px;
+            color: white;
+        }
+
+        /* Style untuk Box Kode */
+        pre {
+            position: relative;
+            background: #1e1e1e !important;
+            padding: 15px !important;
+            padding-top: 40px !important; /* FIX */
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid #333;
+            margin: 10px 0;
+            max-width: 100%;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* FIX: jangan biarin style inline-code ngeganggu code block */
+        pre code {
+            display: block;
+            white-space: pre-wrap !important;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            background: transparent !important; /* FIX */
+            padding: 0 !important; /* FIX */
+            border-radius: 0 !important; /* FIX */
+        }
+
+        /* Tombol Salin (dibagusin) */
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.35);
+            color: white;
+            border: 1px solid rgba(255, 0, 60, 0.65);
+            padding: 6px 10px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 999px;
+            font-family: 'Inter', sans-serif;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0.88;
+            transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+            user-select: none;
+        }
+        pre:hover .copy-btn {
+            opacity: 1;
+            transform: translateY(-1px);
+            background: rgba(255, 0, 60, 0.16);
+            border-color: rgba(255, 0, 60, 0.9);
+        }
+        .copy-btn:active { transform: scale(0.98); }
+        .copy-btn .material-symbols-rounded {
+            font-size: 16px;
+            line-height: 1;
+        }
+        .copy-btn.copied {
+            border-color: rgba(0, 255, 170, 0.85);
+            background: rgba(0, 255, 170, 0.12);
+        }
+        
+        /* Style Bold & Teks AI */
+        .bubble b, .bubble strong { color: #ff003c; font-weight: 800; }
+
+        /* FIX: ini cuma buat inline code (bukan code di dalam <pre>) */
+        .bubble :not(pre) > code {
+            background: #2d2d2d;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #ff003c;
+            font-family: monospace;
+        }
+
+        /* Input Area */
+        .input-wrapper {
+            flex-shrink: 0;
+            padding: 12px 16px;
+            background: var(--bg-color);
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        }
+
+        .input-container {
+            background: var(--input-bg);
+            border-radius: 30px;
+            padding: 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #333;
+        }
+
+        #message-input {
+            flex: 1;
+            min-width: 0;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px 4px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .action-btn {
+            cursor: pointer;
+            color: var(--text-sub);
+            font-size: 24px !important;
+            user-select: none;
+            transition: transform 0.1s;
+        }
+        .action-btn:active { transform: scale(0.9); }
+
+        .send-btn { color: var(--ai-red) !important; }
+
+        /* Typing Loader */
+        .typing-loader {
+            display: none;
+            gap: 4px;
+            padding: 10px;
+            align-self: flex-start;
+            margin-left: 50px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--ai-red);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bubble img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-top: 8px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .ai-typing {
+            background: linear-gradient(90deg, #ff3333 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.8));
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        /* Preview Image Container */
+        #image-preview-container {
+            display: none;
+            padding: 10px;
+            background: #1e1f20;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            position: relative;
+            width: fit-content;
+        }
+        #image-preview-container img {
+            height: 80px;
+            border-radius: 10px;
+        }
+        .remove-img {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--ai-red);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* ================= PROMO CARD ================= */
+        .promo-card {
+            background: linear-gradient(135deg, #2a0b12, #140507);
+            border: 1px solid rgba(255, 0, 60, 0.55);
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 0 18px rgba(255, 0, 60, 0.25);
+            margin-bottom: 26px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .promo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #ff003c;
+            background: rgba(0,0,0,0.35);
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255,0,60,0.6);
+        }
+
+        .dot-live {
+            width: 7px;
+            height: 7px;
+            background: #ff003c;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff003c;
+        }
+
+        .ultra-tag {
+            background: rgba(255,255,255,0.12);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #fff;
+        }
+
+       .promo-title {
+           font-size: 20px;
+           font-weight: 800;
+           color: #ff003c;
+           margin-bottom: 4px;
+       }
+
+      .promo-text {
+          font-size: 14px;
+          color: #e5e7eb;
+          line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-chat">
+    <header class="chat-header">
+        <div class="model-badge">
+            <span style="color: #ff0000; font-size: 18px;" class="material-symbols-rounded">stars</span>
+            WormGPT 2.0 Ultra
+            <span class="material-symbols-rounded" style="font-size: 16px;">expand_more</span>
+        </div>
+        <div class="avatar user" id="header-user-avatar" style="background: #333; width: 30px; height: 30px;">
+            <span class="material-symbols-rounded" style="font-size: 18px;">person</span>
+        </div>
+    </header>
+
+    <div class="chat-messages" id="chat-messages">
+    
+      <div class="promo-card">
+    <div class="promo-badge">
+        <span class="dot-live"></span>
+        WORMGPT <span class="ultra-tag">Ultra</span>
+    </div>
+    <div class="promo-title">Promo!!</div>
+    <div class="promo-text"> 
+        Reseller WormGPT 5K Pv @tegarxzyy ( owner utama ) <br> 
+        Owner WormGPT 10K Pv @tegarxzyy ( owner utama )
+    </div>
+</div>
+        <div class="message-wrapper ai">
+            <div class="avatar ai">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="#ff0000" stroke-width="4"/>
+                    <path d="M50,15 L50,85 M15,50 L85,50" stroke="#ff0000" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="10" fill="#ff0000"/>
+                    <path d="M30,30 L15,15 M70,30 L85,15 M70,70 L85,85 M30,70 L15,85" stroke="#ff0000" stroke-width="3"/>
+                </svg>
+            </div>
+            <div class="bubble">
+                <span class="ai-typing">Halo!</span><br>
+                WormGPT akses telah dibuka. Apa perintah Anda?
+            </div>
+        </div>
+    </div>
+
+    <div class="typing-loader" id="ai-loader">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+
+    <div class="input-wrapper">
+        <div id="image-preview-container">
+            <span class="material-symbols-rounded remove-img" onclick="removeSelectedImage()">cancel</span>
+            <img src="" id="image-preview">
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="message-input" placeholder="Ketik perintah..." autocomplete="off" />
+            <input type="file" id="file-upload" accept="image/*" style="display: none;" />
+            <span class="material-symbols-rounded action-btn" id="image-trigger">image</span>
+            <span class="material-symbols-rounded action-btn send-btn" id="send-trigger">send</span>
+        </div>
+        <div class="footer-note" style="font-size: 10px; text-align: center; color: var(--text-sub); margin-top: 10px;">
+            WormGPT v2.0 :: Absolute Control Mode
+        </div>
+    </div>
+</div>
+
+<script>
+const socket = io();
+const chatMessages = document.querySelector('.chat-messages');
+const messageInput = document.querySelector('#message-input');
+const fileInput = document.querySelector('#file-upload');
+const imageTrigger = document.querySelector('#image-trigger');
+const sendBtn = document.querySelector('#send-trigger');
+const loader = document.querySelector('#ai-loader');
+
+let selectedImageBase64 = null;
+
+// Ambil ID Premium yang disimpan saat login
+const wormId = localStorage.getItem('worm_id');
+const currentUser = JSON.parse(localStorage.getItem('currentUser')) || { user: 'Guest', imageurl: null };
+
+// Proteksi: Jika ID tidak ada, paksa balik ke login
+if (!wormId) {
+    window.location.replace('/');
+}
+
+// Update Header Avatar
+if (currentUser.imageurl) {
+    document.getElementById('header-user-avatar').innerHTML =
+        `<img src="${currentUser.imageurl}" style="width:100%;height:100%;border-radius:50%">`;
+}
+
+function forceScrollBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// =====================
+// COPY TEXT UNIVERSAL
+// =====================
+function copyTextUniversal(text) {
+    // Coba clipboard modern (HTTPS / localhost)
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    }
+
+    // Fallback HTTP / VPS / Android
+    return new Promise((resolve, reject) => {
+        try {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            resolve();
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+// Helper to apply Code Highlighting and Copy Buttons
+function applyCodeFeatures(container) {
+    container.querySelectorAll('pre').forEach((block) => {
+        if (!block.querySelector('.copy-btn')) {
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.innerHTML = `
+                <span class="material-symbols-rounded">content_copy</span>
+                <span class="copy-label">COPY</span>
+            `;
+
+            button.addEventListener('click', async () => {
+                const codeEl = block.querySelector('code');
+                const code = codeEl ? codeEl.innerText : block.innerText;
+
+                try {
+                    await copyTextUniversal(code);
+                    button.classList.add('copied');
+                    button.innerHTML = `
+                        <span class="material-symbols-rounded">check</span>
+                        <span class="copy-label">COPIED</span>
+                    `;
+                } catch (e) {
+                    button.classList.add('copied');
+                    button.innerHTML = `
+                        <span class="material-symbols-rounded">error</span>
+                        <span class="copy-label">FAILED</span>
+                    `;
+                }
+
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = `
+                        <span class="material-symbols-rounded">content_copy</span>
+                        <span class="copy-label">COPY</span>
+                    `;
+                }, 2000);
+            });
+
+            block.appendChild(button);
+        }
+    });
+
+    if (typeof Prism !== 'undefined') {
+        Prism.highlightAllUnder(container);
+    }
+}
+
+// Typing Effect with Markdown Support
+function typeResponse(bubbleElement, text) {
+    let i = 0;
+    let currentText = "";
+    bubbleElement.innerHTML = "";
+
+    function typing() {
+        if (i < text.length) {
+            currentText += text.charAt(i);
+            bubbleElement.textContent = currentText;
+            i++;
+            forceScrollBottom();
+            setTimeout(typing, 10);
+        } else {
+            bubbleElement.innerHTML = marked.parse(text);
+            applyCodeFeatures(bubbleElement);
+            forceScrollBottom();
+        }
+    }
+    typing();
+}
+
+function streamResponse(bubbleElement, fullText) {
+    let currentLength = 0;
+    const speed = 30; // Kecepatan muncul (ms). Naikkan angka ini jika ingin lebih pelan lagi.
+    
+    loader.style.display = 'none';
+    
+    // Setiap kali pesan baru mulai, kita asumsikan user ingin melihat di paling bawah dulu
+    isAutoScrollEnabled = true;
+
+    const interval = setInterval(() => {
+        if (currentLength < fullText.length) {
+            // Muncul per 3-5 karakter agar transisi terlihat halus dan pelan
+            currentLength += 4; 
+            const shadowText = fullText.slice(0, currentLength);
+            
+            // Render format markdown (Bold, Code Block, dll)
+            bubbleElement.innerHTML = marked.parse(shadowText);
+            
+            // Jalankan auto-scroll (hanya jika user tidak sedang scroll ke atas)
+            smartScroll();
+        } else {
+            // Selesai rendering
+            clearInterval(interval);
+            bubbleElement.innerHTML = marked.parse(fullText);
+            applyCodeFeatures(bubbleElement);
+            smartScroll();
+        }
+    }, speed);
+}
+
+let isAutoScrollEnabled = true;
+
+chatMessages.addEventListener('scroll', () => {
+    const threshold = 60; // Toleransi dalam pixel
+    // Cek apakah posisi scroll user berada di area paling bawah
+    const isAtBottom = chatMessages.scrollHeight - chatMessages.scrollTop <= chatMessages.clientHeight + threshold;
+    
+    // Jika user scroll ke atas, matikan auto-scroll. Jika user di bawah, nyalakan.
+    isAutoScrollEnabled = isAtBottom;
+});
+
+// 2. Fungsi scroll cerdas yang menghormati pilihan user
+function smartScroll() {
+    if (isAutoScrollEnabled) {
+        chatMessages.scrollTo({
+            top: chatMessages.scrollHeight,
+            behavior: 'auto' // 'auto' lebih stabil untuk teks bertahap daripada 'smooth'
+        });
+    }
+}
+
+// Add Message to UI
+function addMessage(text, isAi, image = null) {
+    const wrapper = document.createElement('div');
+    wrapper.className = `message-wrapper ${isAi ? 'ai' : 'user'}`;
+
+    let avatarHtml = isAi
+        ? `
+        <div class="avatar ai">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="#ff0000" stroke-width="4"/>
+                <path d="M50,15 L50,85 M15,50 L85,50" stroke="#ff0000" stroke-width="3"/>
+                <circle cx="50" cy="50" r="10" fill="#ff0000"/>
+                <path d="M30,30 L15,15 M70,30 L85,15 M70,70 L85,85 M30,70 L15,85" stroke="#ff0000" stroke-width="3"/>
+            </svg>
+        </div>`
+        : `
+        <div class="avatar user">
+            ${currentUser.imageurl
+                ? `<img src="${currentUser.imageurl}">`
+                : '<span class="material-symbols-rounded">person</span>'}
+        </div>`;
+
+    let bubbleContent = "";
+    if (!isAi) {
+        bubbleContent = `
+            ${image ? `<img src="${image}">` : ''}
+            ${text ? `<span>${text}</span>` : ''}
+        `;
+    }
+
+    wrapper.innerHTML = `
+        ${avatarHtml}
+        <div class="bubble">${bubbleContent}</div>
+    `;
+
+    chatMessages.appendChild(wrapper);
+    forceScrollBottom();
+    return wrapper;
+}
+
+// Handle Image Upload
+imageTrigger.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            selectedImageBase64 = e.target.result;
+            document.getElementById('image-preview').src = selectedImageBase64;
+            document.getElementById('image-preview-container').style.display = 'block';
+            forceScrollBottom();
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function removeSelectedImage() {
+    selectedImageBase64 = null;
+    document.getElementById('image-preview-container').style.display = 'none';
+    fileInput.value = "";
+}
+
+// Send Logic
+function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text && !selectedImageBase64) return;
+
+    addMessage(text, false, selectedImageBase64);
+    
+    // Tampilkan loader segera setelah user kirim
+    loader.style.display = 'flex';
+    forceScrollBottom();
+
+    socket.emit('chat_message', {
+        userId: wormId,
+        username: currentUser.user,
+        text: text,
+        imageBase64: selectedImageBase64
+    });
+
+    messageInput.value = "";
+    removeSelectedImage();
+}
+
+sendBtn.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// Socket Listeners
+socket.on('typing', (isTyping) => {
+    if (isTyping) {
+        loader.style.display = 'flex';
+        forceScrollBottom();
+    }
+});
+
+socket.on('ai_response', (data) => {
+    // Tampilkan loader segera
+    loader.style.display = 'flex';
+    smartScroll();
+
+    // Sesuai permintaan: Menunggu 1 detik loading, lalu mulai tampil di detik ke-3
+    setTimeout(() => {
+        const wrapper = addMessage("", true);
+        const bubble = wrapper.querySelector('.bubble');
+        
+        // Mulai proses muncul teks pelan-pelan
+        streamResponse(bubble, data.text);
+    }, 3000); 
+});
+
+// Fix Mobile Keyboard Viewport
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        document.body.style.height = `${window.visualViewport.height}px`;
+        forceScrollBottom();
+    });
+}
+</script>
+
+</body>
+</html>
